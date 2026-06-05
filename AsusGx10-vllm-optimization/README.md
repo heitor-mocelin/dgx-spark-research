@@ -4,7 +4,8 @@ Optimizing **vLLM** serving of **Qwen3-class MoE models** on an **ASUS Ascent GX
 (NVIDIA **GB10 Grace Blackwell**, 128 GB LPDDR5, DGX OS / Ubuntu ARM64) — from a bare
 device to a tuned, OpenAI-compatible inference endpoint.
 
-> **Status:** work in progress. Research corpus and guides are being assembled.
+> **Status:** draft. 20-source cited research corpus complete; the full 6-part guide series is
+> drafted ([guides/](guides/)). Device-specific benchmarks (Phase 3) and scripts (Phase 4) pending.
 
 ## Hardware & baseline (this device)
 
