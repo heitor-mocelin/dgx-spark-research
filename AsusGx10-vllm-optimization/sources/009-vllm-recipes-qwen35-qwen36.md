@@ -1,0 +1,292 @@
+---
+id: 009
+title: "Qwen3.5 & Qwen3.6 Usage Guide"
+url: "https://docs.vllm.ai/projects/recipes/en/latest/Qwen/Qwen3.5.html"
+publisher: "vLLM Recipes"
+retrieved: "2026-06-05"
+fetched_by: "openclaw-lxc/trafilatura"
+license_note: "reference only — cited by URL; short excerpts attributed"
+topics: [quantization, throughput, tool-calling, context, moe]
+---
+
+# Qwen3.5 & Qwen3.6 Usage Guide¶
+
+Qwen3.5 and Qwen3.6 are multimodal mixture-of-experts models featuring a gated delta networks architecture. This guide covers how to efficiently deploy and serve both models using vLLM.
+
+| Model | Total Params | Active Params | HuggingFace |
+|---|---|---|---|
+| Qwen3.6 | 35B | 3B (256 experts, 8 routed + 1 shared) | Qwen3.6-35B-A3B / FP8 |
+| Qwen3.5 | 397B | 17B | Qwen3.5-397B-A17B / FP8 |
+
+## Installing vLLM¶
+
+You can either install vLLM from pip or use the pre-built Docker image.
+
+### Pip Install¶
+
+#### NVIDIA¶
+
+#### AMD¶
+
+Note: The vLLM wheel for ROCm requires Python 3.12, ROCm 7.0, and glibc >= 2.35. If your environment does not meet these requirements, please use the Docker-based setup as described below. Supported GPUs: MI300X, MI325X, MI355X.
+
+
+## Running Qwen3.6¶
+
+```
+vllm serve Qwen/Qwen3.6-35B-A3B \
+--tensor-parallel-size 8 \
+--max-model-len 262144 \
+--reasoning-parser qwen3
+```
+
+
+With MTP speculative decoding:
+
+```
+vllm serve Qwen/Qwen3.6-35B-A3B \
+--tensor-parallel-size 8 \
+--max-model-len 262144 \
+--reasoning-parser qwen3 \
+--speculative-config '{"method": "mtp", "num_speculative_tokens": 2}'
+```
+
+
+### Docker¶
+
+#### NVIDIA¶
+
+```
+docker run --gpus all \
+-p 8000:8000 \
+--ipc=host \
+-v ~/.cache/huggingface:/root/.cache/huggingface \
+vllm/vllm-openai Qwen/Qwen3.5-397B-A17B \
+--tensor-parallel-size 8 \
+--reasoning-parser qwen3 \
+--enable-prefix-caching
+```
+
+
+For Blackwell GPUs, use `vllm/vllm-openai:cu130-nightly`
+
+
+#### AMD¶
+
+```
+docker run --device=/dev/kfd --device=/dev/dri \
+--security-opt seccomp=unconfined \
+--group-add video \
+--ipc=host \
+-p 8000:8000 \
+-v ~/.cache/huggingface:/root/.cache/huggingface \
+vllm/vllm-openai-rocm:latest \
+Qwen/Qwen3.5-397B-A17B-FP8 \
+--tensor-parallel-size 8 \
+--reasoning-parser qwen3 \
+--enable-prefix-caching
+```
+
+
+## Running Qwen3.5¶
+
+The configurations below have been verified on 8x H200 GPUs and 8x MI300X/MI355X GPUs.
+
+Tip
+
+We recommend using the official FP8 checkpoint Qwen/Qwen3.5-397B-A17B-FP8 for optimal serving efficiency.
+
+### Throughput-Focused Serving¶
+
+#### Text-Only¶
+
+For maximum text throughput under high concurrency, use `--language-model-only`
+
+to skip loading the vision encoder and free up memory for KV cache as well as enabling Expert Parallelism.
+
+```
+vllm serve Qwen/Qwen3.5-397B-A17B-FP8 \
+-dp 8 \
+--enable-expert-parallel \
+--language-model-only \
+--reasoning-parser qwen3 \
+--enable-prefix-caching
+```
+
+
+#### Multimodal¶
+
+For multimodal workloads, use `--mm-encoder-tp-mode data`
+
+for data-parallel vision encoding and `--mm-processor-cache-type shm`
+
+to efficiently cache and transfer preprocessed multimodal inputs in shared memory.
+
+```
+vllm serve Qwen/Qwen3.5-397B-A17B-FP8 \
+-dp 8 \
+--enable-expert-parallel \
+--mm-encoder-tp-mode data \
+--mm-processor-cache-type shm \
+--reasoning-parser qwen3 \
+--enable-prefix-caching
+```
+
+
+Tip
+
+To enable tool calling, add `--enable-auto-tool-choice --tool-call-parser qwen3_coder`
+
+to the serve command.
+
+### Latency-Focused Serving¶
+
+For latency-sensitive workloads at low concurrency, enable MTP-1 speculative decoding and disable prefix caching. MTP-1 reduces time-per-output-token (TPOT) with a high acceptance rate, at the cost of lower throughput under load.
+
+Note
+
+MTP-1 speculative decoding for AMD GPUs is under development.
+
+```
+vllm serve Qwen/Qwen3.5-397B-A17B-FP8 \
+--tensor-parallel-size 8 \
+--speculative-config '{"method": "mtp", "num_speculative_tokens": 1}' \
+--reasoning-parser qwen3
+```
+
+
+### GB200 Deployment¶
+
+Tip
+
+We recommend using the NVFP4 checkpoint nvidia/Qwen3.5-397B-A17B-NVFP4 for optimal serving efficiency.
+
+You can also deploy the model across 4GPUs on a GB200 node, using the similar base configuration as H200.
+
+```
+vllm serve nvidia/Qwen3.5-397B-A17B-NVFP4 \
+-dp 4 \
+--enable-expert-parallel \
+--language-model-only \
+--reasoning-parser qwen3 \
+--enable-prefix-caching
+```
+
+
+### MI355X Deployment¶
+
+You can also deploy the model across 2 GPUs on a MI355X node, using the similar base configuration as above.
+
+```
+vllm serve Qwen/Qwen3.5-397B-A17B-FP8 \
+-tp 2 \
+--enable-expert-parallel \
+--language-model-only \
+--reasoning-parser qwen3 \
+--enable-prefix-caching
+```
+
+
+### Configuration Tips¶
+
+**Disable Reasoning**: If you want to disable the reasoning mode via command-line parameters (instead of modifying the request body), you can add the following configurations:`--reasoning-parser qwen3`
+
+`--default-chat-template-kwargs '{"enable_thinking": false}'`
+
+.**Prefix Caching**: Prefix caching for Mamba cache "align" mode is currently experimental. Please report any issues you may observe.**Multi-token Prediction**: MTP-1 reduces per-token latency but degrades text throughput under high concurrency because speculative tokens consume KV cache capacity, reducing effective batch size. Depending on your use case, you may adjust`num_speculative_tokens`
+
+(1-5): higher values can improve latency further but may have varying acceptance rates and throughput trade-offs.**Encoder Data Parallelism**: Specifying`--mm-encoder-tp-mode data`
+
+deploys the vision encoder in a data-parallel fashion for better throughput performance. This consumes additional memory and may require adjustment of`--gpu-memory-utilization`
+
+.**Media Embedding Size**: You can adjust the maximum media embedding size allowed by modifying the HuggingFace processor config at server startup via passing`--mm-processor-kwargs`
+
+. To enable up to 224K visual context length, set the longest_edge to`469762048`
+
+(calculated as`2 * 32 * 32 * 224 * 1024`
+
+):`--mm-processor-kwargs '{"videos_kwargs": {"size": {"longest_edge": 469762048, "shortest_edge": 4096}}}'`
+
+
+You may encounter the following error:
+
+```
+(Worker_TP0 pid=70) ERROR 02-08 08:39:04 [multiproc_executor.py:852] File "/usr/local/lib/python3.12/dist-packages/vllm/model_executor/models/qwen3_next.py", line 585, in _forward_core
+(Worker_TP0 pid=70) ERROR 02-08 08:39:04 [multiproc_executor.py:852] mixed_qkv_non_spec = causal_conv1d_update(
+(Worker_TP0 pid=70) ERROR 02-08 08:39:04 [multiproc_executor.py:852] ^^^^^^^^^^^^^^^^^^^^^
+(Worker_TP0 pid=70) ERROR 02-08 08:39:04 [multiproc_executor.py:852] File "/usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/mamba/ops/causal_conv1d.py", line 1160, in causal_conv1d_update
+(Worker_TP0 pid=70) ERROR 02-08 08:39:04 [multiproc_executor.py:852] assert num_cache_lines >= batch
+```
+
+
+`--max-cudagraph-capture-size`
+
+, the default value is 512.
+See https://github.com/vllm-project/vllm/pull/34571 for details
+### Benchmarking¶
+
+Once the server is running, open another terminal and run the benchmark client:
+
+```
+vllm bench serve \
+--backend openai-chat \
+--endpoint /v1/chat/completions \
+--model Qwen/Qwen3.5-397B-A17B \
+--dataset-name random \
+--random-input-len 2048 \
+--random-output-len 512 \
+--num-prompts 1000 \
+--request-rate 20
+```
+
+
+### Consume the OpenAI API Compatible Server¶
+
+```
+import time
+from openai import OpenAI
+client = OpenAI(
+api_key="EMPTY",
+base_url="http://localhost:8000/v1",
+timeout=3600
+)
+messages = [
+{
+"role": "user",
+"content": [
+{
+"type": "image_url",
+"image_url": {
+"url": "https://ofasys-multimodal-wlcb-3-toshanghai.oss-accelerate.aliyuncs.com/wpf272043/keepme/image/receipt.png"
+}
+},
+{
+"type": "text",
+"text": "Read all the text in the image."
+}
+]
+}
+]
+start = time.time()
+response = client.chat.completions.create(
+model="Qwen/Qwen3.5-397B-A17B",
+messages=messages,
+max_tokens=2048
+)
+print(f"Response costs: {time.time() - start:.2f}s")
+print(f"Generated text: {response.choices[0].message.content}")
+```
+
+
+### Processing Ultra-Long Texts¶
+
+Qwen3.5 natively supports context lengths of up to `262,144`
+
+tokens. For long-horizon tasks where the total length (including both input and output) exceeds this limit, we recommend using RoPE scaling techniques to handle long texts effectively., e.g., YaRN. you can override the `rope_parameters`
+
+in your running script. Refer to Qwen3.5-397B-A17B for more details..
+
+```
+export VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
+VLLM_ALLOW_LONG_MAX_MODEL_LEN=1 vllm serve ... --hf-overrides '{"text_config": {"rope_parameters": {"mrope_interleaved": true, "mrope_section": [11, 11, 10], "rope_type": "yarn", "rope_theta": 10000000, "partial_rotary_factor": 0.25, "factor": 4.0, "original_max_position_embeddings": 262144}}}' --max-model-len 1010000
+```
