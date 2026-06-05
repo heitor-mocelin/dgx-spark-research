@@ -1,0 +1,16 @@
+# OS / editor
+.DS_Store
+*.swp
+*~
+
+# Python (benchmark tooling, if any)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local scratch / unredacted captures — never commit secrets or tokens
+*.local
+scratch/
+*.secret
+.env
