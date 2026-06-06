@@ -33,6 +33,9 @@ then amortize the weight read across requests (batching).
 |---|---|---|
 | **[research-digests/](research-digests/)** | On-device, model-generated literature digests | major discoveries in efficient LLM inference (48 arXiv papers) |
 
+> 🚀 **New here?** → **[Newcomer's Guide: Local Inference on a DGX Spark](getting-started.md)** —
+> which model / runtime / quantization to pick, and the gotchas. Then dive into the study below.
+
 ## 🔬 The test program — predict, measure, learn
 
 We benchmarked **7 NVFP4 models** against a from-first-principles roofline. Read these in order:

@@ -7,6 +7,10 @@ Each subproject is self-contained: a cited research corpus, layered guides (newc
 on-ramp → advanced deep-dive), and reproducible scripts, grounded in both published
 sources and real measurements on the author's hardware.
 
+> 🚀 **New to local inference or the DGX Spark?** Start with the
+> **[Newcomer's Guide](AsusGx10/getting-started.md)** — which model to run, which runtime, and the
+> mistakes to avoid (written by the box's own local model, evaluating the findings below).
+
 ## 🔬 Key discoveries (measured on the GX10)
 
 We predicted an NVFP4 decode ceiling for each model from first principles, then benchmarked the real
