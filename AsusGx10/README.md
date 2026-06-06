@@ -10,11 +10,27 @@ then amortize the weight read across requests (batching).
 
 ## Subprojects
 
+**Flagship local-inference guides** (full corpus + 6-guide series + scripts):
+
 | Folder | What | Highlight |
 |---|---|---|
-| **[vllm-qwen3.6-35b-a3b/](vllm-qwen3.6-35b-a3b/)** | Optimizing vLLM serving of Qwen3.6-35B-A3B (NVFP4/FP8) | **measured** ~627 tok/s @ c32, ~951 peak; full guide series + scripts + benchmarks |
-| **[vllm-gemma4-26b-a4b/](vllm-gemma4-26b-a4b/)** | Running Google Gemma 4 locally (vLLM/Ollama/llama.cpp) | 26B-A4B NVFP4 ~52 tok/s; runtime choice + deployment recipe |
-| **[research-digests/](research-digests/)** | On-device, model-generated literature digests | e.g. major discoveries in efficient LLM inference (48 arXiv papers) |
+| **[vllm-qwen3.6-35b-a3b/](vllm-qwen3.6-35b-a3b/)** | Optimizing vLLM serving of Qwen3.6-35B-A3B (NVFP4/FP8) | **measured** ~627 tok/s @ c32, ~951 peak; full guide series |
+| **[vllm-gemma4-26b-a4b/](vllm-gemma4-26b-a4b/)** | Running Google Gemma 4 locally (vLLM/Ollama/llama.cpp) | 26B-A4B NVFP4 ~52 tok/s; runtime choice + deployment |
+
+**Benchmark-tested models** (overview + NVFP4 recipe + measured results, from the [test matrix](FINDINGS.md)):
+
+| Folder | Type | Single-stream | Note |
+|---|---|---:|---|
+| **[vllm-qwen3-32b/](vllm-qwen3-32b/)** | dense 32B | 11 tok/s | 91% of roofline — dense reference |
+| **[vllm-llama-3.3-70b/](vllm-llama-3.3-70b/)** | dense 70B | 5.4 tok/s | **98%** — the roofline anchor |
+| **[vllm-nemotron-3-nano-30b-a3b/](vllm-nemotron-3-nano-30b-a3b/)** | hybrid Mamba-MoE, 3B active | 54 tok/s | **1215 tok/s** peak @ 44 W — throughput champion |
+| **[vllm-nemotron-3-super-120b-a12b/](vllm-nemotron-3-super-120b-a12b/)** | hybrid LatentMoE, 12B active | 15 tok/s | 120B that runs interactively; 1M ctx |
+
+**Other:**
+
+| Folder | What | Highlight |
+|---|---|---|
+| **[research-digests/](research-digests/)** | On-device, model-generated literature digests | major discoveries in efficient LLM inference (48 arXiv papers) |
 
 ## 🔬 The test program — predict, measure, learn
 

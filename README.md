@@ -37,6 +37,11 @@ Grouped by **device**. The first (and currently only) device is the ASUS Ascent 
   - **[vllm-gemma4-26b-a4b/](AsusGx10/vllm-gemma4-26b-a4b/)** — running **Google Gemma 4** locally
     (vLLM / Ollama / llama.cpp): variants & architecture, the 26B-A4B NVFP4 recipe (~52 tok/s),
     quantization, multimodal / thinking / tool-calling.
+  - **Benchmark-tested models** (overview + NVFP4 recipe + measured results from the
+    [test matrix](AsusGx10/FINDINGS.md)): [vllm-qwen3-32b](AsusGx10/vllm-qwen3-32b/) ·
+    [vllm-llama-3.3-70b](AsusGx10/vllm-llama-3.3-70b/) ·
+    [vllm-nemotron-3-nano-30b-a3b](AsusGx10/vllm-nemotron-3-nano-30b-a3b/) ·
+    [vllm-nemotron-3-super-120b-a12b](AsusGx10/vllm-nemotron-3-super-120b-a12b/).
   - **[research-digests/](AsusGx10/research-digests/)** — auto-generated, on-device literature
     digests built by the local model (e.g. major discoveries in efficient LLM inference).
 

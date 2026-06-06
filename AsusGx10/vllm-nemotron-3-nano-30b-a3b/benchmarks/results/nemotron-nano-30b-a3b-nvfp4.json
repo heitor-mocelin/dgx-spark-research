@@ -1,0 +1,118 @@
+{
+ "model": "nemotron-nano",
+ "label": "nemotron-nano-30b-a3b-nvfp4",
+ "reps": 3,
+ "single_stream": {
+  "tok_s": 54.1,
+  "tok_s_std": 5.03,
+  "ttft_ms": 80.2,
+  "itl_ms": 17.4,
+  "telemetry": {
+   "gpu_util_avg": 96.0,
+   "gpu_util_max": 96.0,
+   "mem_bw_util_avg": 0.0,
+   "mem_bw_util_max": 0.0,
+   "power_w_avg": 44.8,
+   "power_w_max": 75.7
+  }
+ },
+ "concurrency": [
+  {
+   "c": 1,
+   "agg_tok_s_mean": 56.1,
+   "agg_tok_s_std": 0.2,
+   "agg_tok_s_runs": [
+    55.8,
+    56.3,
+    56.2
+   ],
+   "ttft_p50_ms": 79.2
+  },
+  {
+   "c": 4,
+   "agg_tok_s_mean": 187.8,
+   "agg_tok_s_std": 2.1,
+   "agg_tok_s_runs": [
+    184.8,
+    189.2,
+    189.4
+   ],
+   "ttft_p50_ms": 150.3
+  },
+  {
+   "c": 8,
+   "agg_tok_s_mean": 344.4,
+   "agg_tok_s_std": 2.0,
+   "agg_tok_s_runs": [
+    342.6,
+    347.3,
+    343.3
+   ],
+   "ttft_p50_ms": 177.6
+  },
+  {
+   "c": 16,
+   "agg_tok_s_mean": 572.2,
+   "agg_tok_s_std": 13.2,
+   "agg_tok_s_runs": [
+    553.6,
+    581.2,
+    582.0
+   ],
+   "ttft_p50_ms": 227.4
+  },
+  {
+   "c": 32,
+   "agg_tok_s_mean": 861.0,
+   "agg_tok_s_std": 28.1,
+   "agg_tok_s_runs": [
+    821.3,
+    880.9,
+    880.8
+   ],
+   "ttft_p50_ms": 338.6
+  },
+  {
+   "c": 64,
+   "agg_tok_s_mean": 982.4,
+   "agg_tok_s_std": 23.1,
+   "agg_tok_s_runs": [
+    978.1,
+    956.5,
+    1012.6
+   ],
+   "ttft_p50_ms": 492.7
+  },
+  {
+   "c": 96,
+   "agg_tok_s_mean": 1215.3,
+   "agg_tok_s_std": 3.8,
+   "agg_tok_s_runs": [
+    1220.7,
+    1212.9,
+    1212.4
+   ],
+   "ttft_p50_ms": 731.9
+  },
+  {
+   "c": 128,
+   "agg_tok_s_mean": 1214.1,
+   "agg_tok_s_std": 2.7,
+   "agg_tok_s_runs": [
+    1210.9,
+    1213.9,
+    1217.4
+   ],
+   "ttft_p50_ms": 724.1
+  }
+ ],
+ "peak_tok_s": 1215.3,
+ "saturated_telemetry": {
+  "gpu_util_avg": 80.6,
+  "gpu_util_max": 96.0,
+  "mem_bw_util_avg": 0.0,
+  "mem_bw_util_max": 0.0,
+  "power_w_avg": 37.4,
+  "power_w_max": 44.3
+ }
+}
