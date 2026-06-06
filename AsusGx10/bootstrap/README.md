@@ -58,11 +58,17 @@ Every run writes to `~/.dgx-bootstrap/logs/<UTC>/` (the path is printed at start
 | Checkpoint already on disk | skip download (idempotent) |
 
 ## Tested vs modeled (honest scope)
-- ✅ **Serve commands** — frozen from runs that deployed healthy in the matrix.
-- ✅ **Preflight + logging + report** — validated live on this GX10 (`DRY_RUN`).
-- ⚠️ **Bare-metal install path** — *modeled on NVIDIA's documented driver/toolkit steps*, **not
-  executed on a fresh box** during development (no clean GB10 was available). It's heavily logged so
-  a first real run is fully debuggable; reconcile the driver step with the current
+- ✅ **Serve commands** — frozen from runs that deployed healthy in the benchmark matrix.
+- ✅ **Preflight + logging + `report.json`** — validated live on this GX10 (`DRY_RUN`).
+- ✅ **Deploy → verify → restore — live-validated 2026-06-06.** The script was run for `MODEL=nano`
+  on the real GX10 (production Qwen stopped to free memory): it detected the existing stack, reused
+  the cached checkpoint, **deployed `nemotron-nano`, reached `/health`, passed a smoke
+  `chat/completions` (~26.6 tok/s on a 64-token burst), and wrote `report.json: "status":"success"`
+  with zero errors** — then the run's trap cleanly restored production Qwen. The full deploy path
+  works end-to-end on real hardware.
+- ⚠️ **Bare-metal install path** — *modeled on NVIDIA's documented driver/toolkit steps*, **not yet
+  executed on a stack-less box** (needs a genuinely fresh GB10 — e.g. after a factory reset). It's
+  heavily logged so a first real run is fully debuggable; reconcile the driver step with the current
   [DGX Spark docs](https://docs.nvidia.com/dgx/dgx-spark/) if it changes.
 
 ## Secure Boot note (from a real incident)
