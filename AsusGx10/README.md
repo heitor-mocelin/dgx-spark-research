@@ -34,7 +34,9 @@ then amortize the weight read across requests (batching).
 | **[research-digests/](research-digests/)** | On-device, model-generated literature digests | major discoveries in efficient LLM inference (48 arXiv papers) |
 
 > 🚀 **New here?** → **[Newcomer's Guide: Local Inference on a DGX Spark](getting-started.md)** —
-> which model / runtime / quantization to pick, and the gotchas. Then dive into the study below.
+> which model / runtime / quantization to pick, and the gotchas.
+> ⚡ **Just want it running?** → **[`bootstrap/`](bootstrap/README.md)** — one command, bare device →
+> serving endpoint (env-adaptive, fully logged). Then dive into the study below.
 
 ## 🔬 The test program — predict, measure, learn
 

@@ -5,6 +5,10 @@
 > two of its recommendations were corrected (noted ⚠️ below). A fitting test: the box's own model
 > summarizing what the box is good at. Every number traces to [the benchmarks](benchmarks/README.md).
 
+> ⚡ **Fastest path — one command:** [`bootstrap/dgx-spark-bootstrap.sh`](bootstrap/README.md) takes a
+> fresh box → a serving endpoint (detects your stack, lets you pick a model, deploys, verifies, logs
+> everything). The sections below explain the *choices* it makes.
+
 ## 1. What to expect
 
 The NVIDIA GB10 Grace Blackwell (128 GB unified memory) makes local inference about **memory
