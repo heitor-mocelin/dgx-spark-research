@@ -10,6 +10,7 @@ def ceil(a): return BW/(a*BPP)
 M = [
     ("Qwen3.6-35B-A3B",            3.0e9, 75.0, True, False),
     ("Nemotron-3-Nano-30B-A3B",    3.0e9, 54.1, True, False),
+    ("Qwen3-Next-80B-A3B",         3.0e9, 35.5, True, False),
     ("Gemma-4-26B-A4B (cited)",    3.8e9, 52.0, True, True),
     ("Nemotron-3-Super-120B-A12B", 12e9,  14.6, True, False),
     ("Gemma-4-31B",                31e9,  6.8,  False, False),
@@ -28,8 +29,10 @@ for name, a, meas, moe, cited in M:
     if meas:
         mk = "s" if cited else "^"
         ax.plot(a/1e9, meas, mk, color=("#888" if cited else "#c0392b"), ms=10, zorder=6)
+        off = {"Qwen3.6-35B-A3B": (8, 5), "Nemotron-3-Nano-30B-A3B": (8, -11),
+               "Qwen3-Next-80B-A3B": (-118, -3)}.get(name, (7, -3))
         ax.annotate(name.replace(" (cited)", ""), (a/1e9, meas), textcoords="offset points",
-                    xytext=(7, -3), fontsize=7.6, color="#333")
+                    xytext=off, fontsize=7.6, color="#333")
 ax.plot([], [], "o", color="#1f4eb0", label="Theoretical (per model)")
 ax.plot([], [], "^", color="#c0392b", label="Measured single-stream")
 ax.plot([], [], "s", color="#888", label="Cited (deploy failed)")

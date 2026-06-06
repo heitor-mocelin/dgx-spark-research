@@ -25,6 +25,7 @@ then amortize the weight read across requests (batching).
 | **[vllm-llama-3.3-70b/](vllm-llama-3.3-70b/)** | dense 70B | 5.4 tok/s | **98%** — the roofline anchor |
 | **[vllm-nemotron-3-nano-30b-a3b/](vllm-nemotron-3-nano-30b-a3b/)** | hybrid Mamba-MoE, 3B active | 54 tok/s | **1215 tok/s** peak @ 44 W — throughput champion |
 | **[vllm-nemotron-3-super-120b-a12b/](vllm-nemotron-3-super-120b-a12b/)** | hybrid LatentMoE, 12B active | 15 tok/s | 120B that runs interactively; 1M ctx |
+| **[vllm-qwen3-next-80b-a3b/](vllm-qwen3-next-80b-a3b/)** | hybrid Gated-DeltaNet MoE, 3B active | 35.5 tok/s | **27%** — matrix-min efficiency; latency-bound recurrence |
 
 **Other:**
 
@@ -44,6 +45,7 @@ We benchmarked **7 NVFP4 models** against a from-first-principles roofline. Read
 
 | Model | Active | Measured | Eff. vs ceiling |
 |---|---:|---:|---:|
+| Qwen3-Next-80B-A3B (MoE, DeltaNet) | 3.0B | 35.5 tok/s | **27%** (min) |
 | Nemotron-3-Nano-30B-A3B (MoE) | 3.0B | 54 tok/s | 42% |
 | Qwen3.6-35B-A3B (MoE) | 3.0B | **75 tok/s** | 58% |
 | Nemotron-3-Super-120B-A12B (MoE) | 12B | 15 tok/s | 45% |

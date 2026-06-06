@@ -41,7 +41,8 @@ Grouped by **device**. The first (and currently only) device is the ASUS Ascent 
     [test matrix](AsusGx10/FINDINGS.md)): [vllm-qwen3-32b](AsusGx10/vllm-qwen3-32b/) ·
     [vllm-llama-3.3-70b](AsusGx10/vllm-llama-3.3-70b/) ·
     [vllm-nemotron-3-nano-30b-a3b](AsusGx10/vllm-nemotron-3-nano-30b-a3b/) ·
-    [vllm-nemotron-3-super-120b-a12b](AsusGx10/vllm-nemotron-3-super-120b-a12b/).
+    [vllm-nemotron-3-super-120b-a12b](AsusGx10/vllm-nemotron-3-super-120b-a12b/) ·
+    [vllm-qwen3-next-80b-a3b](AsusGx10/vllm-qwen3-next-80b-a3b/).
   - **[research-digests/](AsusGx10/research-digests/)** — auto-generated, on-device literature
     digests built by the local model (e.g. major discoveries in efficient LLM inference).
 

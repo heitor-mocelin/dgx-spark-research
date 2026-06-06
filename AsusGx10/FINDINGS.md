@@ -31,6 +31,7 @@ use on the GX10, a 3B-active MoE is the only sensible choice** — and now we ca
 | Gemma-4-31B | dense | 31B | 12.5 | **6.8** | 54% | 513 | 61 W |
 | Nemotron-3-Super-120B-A12B | MoE | 12B | 32.4 | **14.6** | 45% | 327 | 56 W |
 | Nemotron-3-Nano-30B-A3B | MoE | 3.0B | 129 | **54.1** | 42% | 1215 | 44 W |
+| Qwen3-Next-80B-A3B | MoE (DeltaNet) | 3.0B | 129 | **35.5** | **27%** | 1021 | 51 W |
 | Gemma-4-26B-A4B | MoE | 3.8B | 102 | *deploy failed* | — | — | — |
 
 *3× repeated, std ≤ 0.1 tok/s — essentially deterministic. Efficiency = measured ÷ realistic ceiling.*
@@ -69,9 +70,17 @@ a 70B dense model the ~39 GB weight-read **dwarfs** those, so it runs at **98% o
 
 ## Discovery 3 — architecture matters beyond the roofline (±15%, and Gemma is an outlier)
 
-- **Same active params, different speed:** Qwen3.6 and Nemotron-Nano are *both* 3B-active MoEs with an
-  identical predicted ceiling, yet measured **75 vs 54 tok/s** — a 40% spread from architecture/kernel
-  quality alone.
+- **Same active params, a 2× speed spread by attention type.** Three **3B-active MoEs** share an
+  identical predicted ceiling (129), yet measured very differently, in a clean ordering by *how linear
+  their attention is*:
+  - **Qwen3.6-35B-A3B** (standard attention) → **75 tok/s** (58%)
+  - **Nemotron-3-Nano** (hybrid **Mamba-2** + attention) → **54 tok/s** (42%)
+  - **Qwen3-Next-80B-A3B** (hybrid **Gated DeltaNet** linear attention, 3:1) → **35.5 tok/s** (27%)
+  **The more recurrent/linear the attention, the further below the attention-roofline it falls.** And
+  the tell is GPU utilization: the transformers peg 89–96% even single-stream (Marlin-busy), but
+  Qwen3-Next sits at **60%** — *not* compute-bound, so its per-token cost is the **serial DeltaNet
+  state update (latency-bound)**, which the weight-read roofline simply can't see. These models batch
+  fine (1021–1215 tok/s aggregate); it's single-user latency where the recurrence shows.
 - **Gemma-4-31B underperforms its class:** **54%** efficiency vs Qwen3-32B's **91%** at nearly identical
   size. The same hybrid sliding/global attention + Per-Layer-Embeddings that make Gemma memory-thrifty
   make it kernel-heavier on `sm_121`. *A model's efficiency is not separable from its kernel support.*
