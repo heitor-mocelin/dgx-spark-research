@@ -117,9 +117,10 @@ Your model — **Qwen3.6-35B-A3B** — is **35B total but only ~3B active** per 
   *before* counting KV-cache reads, activations, and kernel overhead — so real single-stream
   will be lower.
 
-> ⚠️ **Estimate, not a measurement.** This is a back-of-envelope upper bound to build intuition.
-> The GX10 is read-only until Phase 3; we'll replace these with measured `vllm bench` numbers
-> then (guide `05`).
+> 📊 **Measured (2026-06-06):** single-stream is **~75 tok/s** — about *half* this ~160 tok/s
+> weights-only ceiling. The gap is KV/activation reads plus the **Marlin FP4 fallback** (not the
+> native W4A4 path). See [`benchmarks/`](../benchmarks/README.md); the Marlin-vs-native split is
+> the open question in guides `02`/`05`.
 
 ### Why batching breaks the single-stream ceiling
 Here's the key insight that the whole throughput story rests on: when you decode **N sequences
@@ -136,9 +137,10 @@ This explains the two real observations:
 - The near-twin BF16 build reports **~31 tok/s single-stream** [[014]](../sources/014-community-adadrag-qwen35-dgx-spark.md) — BF16 reads ~2 bytes/param
   (≈3.5× more than NVFP4), so a single stream is much slower. NVFP4 is the difference between
   "usable" and "sluggish" on this box.
-- Your setup reportedly sustains **~600 tok/s aggregate** at `--max-num-seqs 128`
-  *(to confirm in Phase 3)*. That's far above the single-stream ceiling precisely because of the
-  amortization above. **Pushing that batch wider — until KV or compute runs out — is guide `01`.**
+- Your setup **measures 627 tok/s aggregate at concurrency 32, peaking ~951 tok/s at c≈96**
+  (then regressing at 128 — saturation), vs **~75 tok/s single-stream** — a ~12.6× batching
+  amplification, exactly the amortization above. **Pushing that batch wider — until KV or compute
+  runs out — is guide `01`.** Full curve: [`benchmarks/`](../benchmarks/README.md).
 
 MoE adds a subtlety: with 256 experts and only 8+1 active per token, different tokens in a batch
 may route to *different* experts, so very wide batches can touch many experts per step. In

@@ -133,12 +133,26 @@ Each run appends a row to a results table (template below) and, where a winner e
 defaults in `launch.sh`. Mind the safety nets you already have: rollback script
 `/home/user/vllm-rollback.sh` and the preserved `vllm_prebackup` container.
 
-### Results table template
+### Results — measured 2026-06-06 (see [`../benchmarks/`](../benchmarks/README.md))
 
-| Run | Image | Key flags | Concurrency | TTFT p50/p99 | ITL p50/p99 | tok/s | Notes |
-|-----|-------|-----------|-------------|--------------|-------------|-------|-------|
-| baseline | `vllm/vllm-openai:nightly` | …current… | 1 / inf | _tbd_ | _tbd_ | _tbd_ | Marlin fallback |
-| … | | | | | | | |
+Baseline = production config (NVFP4, FP8 KV, 32k, `max-num-seqs 128`, Marlin FP4 fallback),
+measured via a dependency-free streaming HTTP client (`vllm bench`/`docker exec` need password
+`sudo` on the DGX — see the blocker note below).
+
+| Concurrency | Aggregate tok/s | TTFT p50 | ITL p50 |
+|---:|---:|---:|---:|
+| 1 (single-stream) | 75 | 55 ms | 13 ms |
+| 32 | 671 | 313 ms | 47 ms |
+| 48 | 753 | 484 ms | 62 ms |
+| **96 (peak)** | **951** | 953 ms | 96 ms |
+| 128 | 931 | 881 ms | 99 ms |
+
+**Findings:** peak ~951 tok/s at c≈96 then saturation-regression at 128; efficient band c≈32–48;
+~12.6× batching amplification; single-stream ~½ the weights-only ceiling (Marlin fallback suspected).
+
+**Still blocked (need non-interactive docker on the DGX):** the restart-based flag sweeps
+(experiments 1, 2, 9) and the **marquee experiment 3** (Marlin vs PR-#40082 native FP4). One-time
+fix: `sudo usermod -aG docker user`, then `scripts/tune.sh` can run them.
 
 ---
 
