@@ -1,0 +1,697 @@
+[
+ {
+  "name": "Quantization for LLM inference",
+  "papers": [
+   {
+    "id": "http://arxiv.org/abs/2503.21676v2",
+    "title": "How do language models learn facts? Dynamics, curricula and hallucinations",
+    "abstract": "Large language models accumulate vast knowledge during pre-training, yet the dynamics governing this acquisition remain poorly understood. This work investigates the learning dynamics of language models on a synthetic factual recall task, uncovering three key findings: First, language models learn in three phases, exhibiting a performance plateau before acquiring precise factual knowledge. Mechanistically, this plateau coincides with the formation of attention-based circuits that support recall. Second, the training data distribution significantly impacts learning dynamics, as imbalanced distributions lead to shorter plateaus. Finally, hallucinations emerge simultaneously with knowledge, and integrating new knowledge into the model through fine-tuning is challenging, as it quickly corrupts its existing parametric memories. Our results emphasize the importance of data distribution in knowledge acquisition and suggest novel data scheduling strategies to accelerate neural network training.",
+    "published": "2025-03-27",
+    "authors": [
+     "Nicolas Zucchet",
+     "Jörg Bornschein",
+     "Stephanie Chan",
+     "Andrew Lampinen",
+     "Razvan Pascanu",
+     "Soham De"
+    ],
+    "aid": "2503.21676"
+   },
+   {
+    "id": "http://arxiv.org/abs/2604.10091v1",
+    "title": "SEPTQ: A Simple and Effective Post-Training Quantization Paradigm for Large Language Models",
+    "abstract": "Large language models (LLMs) have shown remarkable performance in various domains, but they are constrained by massive computational and storage costs. Quantization, an effective technique for compressing models to fit resource-limited devices while preserving generative quality, encompasses two primary methods: quantization aware training (QAT) and post-training quantization (PTQ). QAT involves additional retraining or fine-tuning, thus inevitably resulting in high training cost and making it unsuitable for LLMs. Consequently, PTQ has become the research hotspot in recent quantization methods. However, existing PTQ methods usually rely on various complex computation procedures and suffer from considerable performance degradation under low-bit quantization settings. To alleviate the above issues, we propose a simple and effective post-training quantization paradigm for LLMs, named SEPTQ. Specifically, SEPTQ first calculates the importance score for each element in the weight matrix and determines the quantization locations in a static global manner. Then it utilizes the mask matrix which represents the important locations to quantize and update the associated weights column-by-column until the appropriate quantized weight matrix is obtained. Compared with previous methods, SEPTQ simplifies the post-training quantization procedure into only two steps, and considers the effectiveness and efficiency simultaneously. Experimental results on various datasets across a suite of models ranging from millions to billions in different quantization bit-levels demonstrate that SEPTQ significantly outperforms other strong baselines, especially in low-bit quantization scenarios.",
+    "published": "2026-04-11",
+    "authors": [
+     "Han Liu",
+     "Haotian Gao",
+     "Xiaotong Zhang",
+     "Changya Li",
+     "Feng Zhang",
+     "Wei Wang"
+    ],
+    "aid": "2604.10091"
+   },
+   {
+    "id": "http://arxiv.org/abs/2311.01305v3",
+    "title": "AWEQ: Post-Training Quantization with Activation-Weight Equalization for Large Language Models",
+    "abstract": "Large language models(LLMs) exhibit excellent performance across a variety of tasks, but they come with significant computational and storage costs. Quantizing these models is an effective way to alleviate this issue. However, existing methods struggle to strike a balance between model accuracy and hardware efficiency. This is where we introduce AWEQ, a post-training method that requires no additional training overhead. AWEQ excels in both ultra-low-bit quantization and 8-bit weight and activation (W8A8) quantization. There is an observation that weight quantization is less challenging than activation quantization. AWEQ transfers the difficulty of activation quantization to weights using channel equalization, achieving a balance between the quantization difficulties of both, and thereby maximizing performance. We have further refined the equalization method to mitigate quantization bias error, ensuring the robustness of the model. Extensive experiments on popular models such as LLaMA and OPT demonstrate that AWEQ outperforms all existing post-training quantization methods for large models.",
+    "published": "2023-11-02",
+    "authors": [
+     "Baisong Li",
+     "Xingwang Wang",
+     "Haixiao Xu"
+    ],
+    "aid": "2311.01305"
+   },
+   {
+    "id": "http://arxiv.org/abs/2308.15987v1",
+    "title": "FPTQ: Fine-grained Post-Training Quantization for Large Language Models",
+    "abstract": "In the era of large-scale language models, the substantial parameter size poses significant challenges for deployment. Being a prevalent compression technique, quantization has emerged as the mainstream practice to tackle this issue, which is mainly centered on two recipes W8A8 and W4A16 (i.e. weights and activations in such bit widths). In this study, we propose a novel W4A8 post-training quantization method for the available open-sourced LLMs, which combines the advantages of both two recipes. Therefore, we can leverage the benefit in the I/O utilization of 4-bit weight quantization and the acceleration due to 8-bit matrix computation. Nevertheless, the W4A8 faces notorious performance degradation. As a remedy, we involve layerwise activation quantization strategies which feature a novel logarithmic equalization for most intractable layers, and we combine them with fine-grained weight quantization. Without whistles and bells, we eliminate the necessity for further fine-tuning and obtain the state-of-the-art W4A8 quantized performance on BLOOM, LLaMA, and LLaMA-2 on standard benchmarks. We confirm that the W4A8 quantization is achievable for the deployment of large language models, fostering their wide-spreading real-world applications.",
+    "published": "2023-08-30",
+    "authors": [
+     "Qingyuan Li",
+     "Yifan Zhang",
+     "Liang Li",
+     "Peng Yao",
+     "Bo Zhang",
+     "Xiangxiang Chu"
+    ],
+    "aid": "2308.15987"
+   },
+   {
+    "id": "http://arxiv.org/abs/2411.03934v1",
+    "title": "Interactions Across Blocks in Post-Training Quantization of Large Language Models",
+    "abstract": "Post-training quantization is widely employed to reduce the computational demands of neural networks. Typically, individual substructures, such as layers or blocks of layers, are quantized with the objective of minimizing quantization errors in their pre-activations by fine-tuning the corresponding weights. Deriving this local objective from the global objective of minimizing task loss involves two key simplifications: assuming substructures are mutually independent and ignoring the knowledge of subsequent substructures as well as the task loss. In this work, we assess the effects of these simplifications on weight-only quantization of large language models. We introduce two multi-block fine-tuning strategies and compare them against the baseline of fine-tuning single transformer blocks. The first captures correlations of weights across blocks by jointly optimizing multiple quantized blocks. The second incorporates knowledge of subsequent blocks by minimizing the error in downstream pre-activations rather than focusing solely on the quantized block. Our findings indicate that the effectiveness of these methods depends on the specific network model, with no impact on some models but demonstrating significant benefits for others.",
+    "published": "2024-11-06",
+    "authors": [
+     "Khasmamad Shabanovi",
+     "Lukas Wiest",
+     "Vladimir Golkov",
+     "Daniel Cremers",
+     "Thomas Pfeil"
+    ],
+    "aid": "2411.03934"
+   },
+   {
+    "id": "http://arxiv.org/abs/2409.02228v1",
+    "title": "Unforgettable Generalization in Language Models",
+    "abstract": "When language models (LMs) are trained to forget (or \"unlearn'') a skill, how precisely does their behavior change? We study the behavior of transformer LMs in which tasks have been forgotten via fine-tuning on randomized labels. Such LMs learn to generate near-random predictions for individual examples in the \"training'' set used for forgetting. Across tasks, however, LMs exhibit extreme variability in whether LM predictions change on examples outside the training set. In some tasks (like entailment classification), forgetting generalizes robustly, and causes models to produce uninformative predictions on new task instances; in other tasks (like physical commonsense reasoning and scientific question answering) forgetting affects only the training examples, and models continue to perform the \"forgotten'' task accurately even for examples very similar to those that appeared in the training set. Dataset difficulty is not predictive of whether a behavior can be forgotten; instead, generalization in forgetting is (weakly) predicted by the confidence of LMs' initial task predictions and the variability of LM representations of training data, with low confidence and low variability both associated with greater generalization. Perhaps most surprisingly, random-label forgetting appears to be somewhat insensitive to the contents of the training set: for example, models trained on science questions with random labels continue to answer other science questions accurately, but begin to produce random labels on entailment classification tasks. Finally, we show that even generalizable forgetting is shallow: linear probes trained on LMs' representations can still perform tasks reliably after forgetting. Our results highlight the difficulty and unpredictability of performing targeted skill removal from models via fine-tuning.",
+    "published": "2024-09-03",
+    "authors": [
+     "Eric Zhang",
+     "Leshem Chosen",
+     "Jacob Andreas"
+    ],
+    "aid": "2409.02228"
+   }
+  ]
+ },
+ {
+  "name": "KV cache optimization",
+  "papers": [
+   {
+    "id": "http://arxiv.org/abs/2604.24971v1",
+    "title": "PolyKV: A Shared Asymmetrically-Compressed KV Cache Pool for Multi-Agent LLM Inference",
+    "abstract": "We present PolyKV, a system in which multiple concurrent inference agents share a single, asymmetrically compressed KV cache pool. Rather than allocating a separate KV cache per agent -- the standard paradigm -- PolyKV writes a compressed cache once and injects it into N independent agent contexts via HuggingFace DynamicCache objects. Compression is asymmetric: Keys are quantized at int8 (q8_0) to preserve softmax stability, while Values are compressed using TurboQuant MSE -- a Fast Walsh-Hadamard Transform (FWHT) rotation followed by 3-bit Lloyd-Max quantization with centroids tuned to N(0,1). We evaluate across two model scales (SmolLM2-1.7B-Instruct and Llama-3-8B-Instruct), three context lengths (600-7,194 tokens), and up to 15 concurrent agents. PolyKV achieves a stable 2.91x compression ratio across all configurations. On Llama-3-8B with 15 agents sharing a 4K-token context, PolyKV reduces KV cache memory from 19.8 GB to 0.45 GB -- a 97.7% reduction -- while maintaining only +0.57% perplexity degradation and a mean BERTScore F1 of 0.928. PPL delta does not grow with agent count and improves as context length increases, inverting to -0.26% at 1,851 coherent tokens. To our knowledge, no prior work combines a single shared, lossy-compressed KV pool with multi-reader concurrent agent access.",
+    "published": "2026-04-27",
+    "authors": [
+     "Ishan Patel",
+     "Ishan Joshi"
+    ],
+    "aid": "2604.24971"
+   },
+   {
+    "id": "http://arxiv.org/abs/2410.15252v1",
+    "title": "Lossless KV Cache Compression to 2%",
+    "abstract": "Large language models have revolutionized data processing in numerous domains, with their ability to handle extended context reasoning receiving notable recognition. To speed up inference, maintaining a key-value (KV) cache memory is essential. Nonetheless, the growing demands for KV cache memory create significant hurdles for efficient implementation. This work introduces a novel architecture, Cross-Layer Latent Attention (CLLA), aimed at compressing the KV cache to less than 2% of its original size while maintaining comparable performance levels. CLLA integrates multiple aspects of KV cache compression, including attention head/dimension reduction, layer sharing, and quantization techniques, into a cohesive framework. Our extensive experiments demonstrate that CLLA achieves lossless performance on most tasks while utilizing minimal KV cache, marking a significant advancement in practical KV cache compression.",
+    "published": "2024-10-20",
+    "authors": [
+     "Zhen Yang",
+     "J. N. Han",
+     "Kan Wu",
+     "Ruobing Xie",
+     "An Wang",
+     "Xingwu Sun"
+    ],
+    "aid": "2410.15252"
+   },
+   {
+    "id": "http://arxiv.org/abs/2510.00231v2",
+    "title": "The Pitfalls of KV Cache Compression",
+    "abstract": "KV cache compression promises increased throughput and efficiency with negligible loss in performance. While the gains in throughput are indisputable and recent literature has indeed shown minimal degradation on particular benchmarks, in general the consequences of compression in realistic scenarios such as multi-instruction prompting have been insufficiently studied. In this paper, we identify several pitfalls that practitioners should be aware of when deploying KV cache compressed LLMs. We evaluate five KV cache compression methods (StreamingLLM, SnapKV, TOVA, H2O, and K-Norm) on Llama3.1 8B and Qwen2.5 14B under multi-instruction prompting with IFEval. Importantly, we show that certain instructions degrade much more rapidly with compression, effectively causing them to be completely ignored by the LLM. As a practical example, we highlight system prompt leakage as a case study, empirically demonstrating the impact of compression on leakage and general instruction-following. We identify several factors that contribute to system prompt leakage: compression method, instruction order, and KV eviction bias. We then propose simple changes to KV cache eviction policies that can reduce the impact of these factors and improve the overall performance in multi-instruction tasks.",
+    "published": "2025-09-30",
+    "authors": [
+     "Alex Chen",
+     "Renato Geh",
+     "Aditya Grover",
+     "Guy Van den Broeck",
+     "Daniel Israel"
+    ],
+    "aid": "2510.00231"
+   },
+   {
+    "id": "http://arxiv.org/abs/2505.24133v4",
+    "title": "R-KV: Redundancy-aware KV Cache Compression for Reasoning Models",
+    "abstract": "Reasoning models have demonstrated impressive performance in self-reflection and chain-of-thought reasoning. However, they often produce excessively long outputs, leading to prohibitively large key-value (KV) caches during inference. While chain-of-thought inference significantly improves performance on complex reasoning tasks, it can also lead to reasoning failures when deployed with existing KV cache compression approaches. To address this, we propose Redundancy-aware KV Cache Compression for Reasoning models (R-KV), a novel method specifically targeting redundant tokens in reasoning models. Our method preserves nearly 100% of the full KV cache performance using only 10% of the KV cache, substantially outperforming existing KV cache baselines, which reach only 60% of the performance. Remarkably, R-KV even achieves 105% of full KV cache performance with 16% of the KV cache. This KV-cache reduction also leads to a 90% memory saving and a 6.6X throughput over standard chain-of-thought reasoning inference. Experimental results show that R-KV consistently outperforms existing KV cache compression baselines across two mathematical reasoning datasets.",
+    "published": "2025-05-30",
+    "authors": [
+     "Zefan Cai",
+     "Wen Xiao",
+     "Hanshi Sun",
+     "Cheng Luo",
+     "Yikai Zhang",
+     "Ke Wan"
+    ],
+    "aid": "2505.24133"
+   },
+   {
+    "id": "http://arxiv.org/abs/2509.08315v1",
+    "title": "EvolKV: Evolutionary KV Cache Compression for LLM Inference",
+    "abstract": "Existing key-value (KV) cache compression methods typically rely on heuristics, such as uniform cache allocation across layers or static eviction policies, however, they ignore the critical interplays among layer-specific feature patterns and task performance, which can lead to degraded generalization. In this paper, we propose EvolKV, an adaptive framework for layer-wise, task-driven KV cache compression that jointly optimizes the memory efficiency and task performance. By reformulating cache allocation as a multi-objective optimization problem, EvolKV leverages evolutionary search to dynamically configure layer budgets while directly maximizing downstream performance. Extensive experiments on 11 tasks demonstrate that our approach outperforms all baseline methods across a wide range of KV cache budgets on long-context tasks and surpasses heuristic baselines by up to 7 percentage points on GSM8K. Notably, EvolKV achieves superior performance over the full KV cache setting on code completion while utilizing only 1.5% of the original budget, suggesting the untapped potential in learned compression strategies for KV cache budget allocation.",
+    "published": "2025-09-10",
+    "authors": [
+     "Bohan Yu",
+     "Yekun Chai"
+    ],
+    "aid": "2509.08315"
+   },
+   {
+    "id": "http://arxiv.org/abs/2512.14946v1",
+    "title": "EVICPRESS: Joint KV-Cache Compression and Eviction for Efficient LLM Serving",
+    "abstract": "Reusing KV cache is essential for high efficiency of Large Language Model (LLM) inference systems. With more LLM users, the KV cache footprint can easily exceed GPU memory capacity, so prior work has proposed to either evict KV cache to lower-tier storage devices, or compress KV cache so that more KV cache can be fit in the fast memory. However, prior work misses an important opportunity: jointly optimizing the eviction and compression decisions across all KV caches to minimize average generation latency without hurting quality. We propose EVICPRESS, a KV-cache management system that applies lossy compression and adaptive eviction to KV cache across multiple storage tiers. Specifically, for each KV cache of a context, EVICPRESS considers the effect of compression and eviction of the KV cache on the average generation quality and delay across all contexts as a whole. To achieve this, EVICPRESS proposes a unified utility function that quantifies the effect of quality and delay of the lossy compression or eviction. To this end, EVICPRESS's profiling module periodically updates the utility function scores on all possible eviction-compression configurations for all contexts and places KV caches using a fast heuristic to rearrange KV caches on all storage tiers, with the goal of maximizing the utility function scores on each storage tier. Compared to the baselines that evict KV cache or compress KV cache, EVICPRESS achieves higher KV-cache hit rates on fast devices, i.e., lower delay, while preserving high generation quality by applying conservative compression to contexts that are sensitive to compression errors. Evaluation on 12 datasets and 5 models demonstrates that EVICPRESS achieves up to 2.19x faster time-to-first-token (TTFT) at equivalent generation quality.",
+    "published": "2025-12-16",
+    "authors": [
+     "Shaoting Feng",
+     "Yuhan Liu",
+     "Hanchen Li",
+     "Xiaokun Chen",
+     "Samuel Shen",
+     "Kuntai Du"
+    ],
+    "aid": "2512.14946"
+   }
+  ]
+ },
+ {
+  "name": "Speculative decoding",
+  "papers": [
+   {
+    "id": "http://arxiv.org/abs/2605.01106v1",
+    "title": "Component-Aware Self-Speculative Decoding in Hybrid Language Models",
+    "abstract": "Speculative decoding accelerates autoregressive inference by drafting candidate tokens with a fast model and verifying them in parallel with the target. Self-speculative methods avoid the need for an external drafter but have been studied exclusively in homogeneous Transformer architectures. We introduce component-aware self-speculative decoding, the first method to exploit the internal architectural heterogeneity of hybrid language models, isolating the SSM/linear-attention subgraph as a zero-cost internal draft. We evaluate this on two architecturally distinct hybrid families: Falcon-H1 (parallel: Mamba-2 + attention per layer) and Qwen3.5 (sequential: interleaved linear and attention layers), with a pure Transformer control (Qwen2.5). Parallel hybrids achieve acceptance rates of alpha = 0.68 at draft length k=2 under greedy decoding, while sequential hybrids yield only alpha = 0.038 -- an 18x gap attributable to how each architecture integrates its components. The property is scale-invariant: Falcon-H1 at 3B reproduces the rates observed at 0.5B. We further show that perplexity degradation from a companion ablation study predicts speculative viability without running speculative decoding: a 3.15x ratio (Falcon) maps to alpha = 0.37 at k=4, while 81.96x (Qwen) maps to alpha = 0.019. For sequential hybrids, generic LayerSkip achieves 12x higher acceptance rates than the component-aware strategy. The composition pattern of hybrid models -- not merely the presence of alternative components -- determines whether component-level self-speculation is viable.",
+    "published": "2026-05-01",
+    "authors": [
+     "Hector Borobia",
+     "Elies Seguí-Mas",
+     "Guillermina Tormo-Carbó"
+    ],
+    "aid": "2605.01106"
+   },
+   {
+    "id": "http://arxiv.org/abs/2203.16487v6",
+    "title": "Speculative Decoding: Exploiting Speculative Execution for Accelerating Seq2seq Generation",
+    "abstract": "We propose Speculative Decoding (SpecDec), for the first time ever, to formally study exploiting the idea of speculative execution to accelerate autoregressive (AR) decoding. Speculative Decoding has two innovations: Spec-Drafter -- an independent model specially optimized for efficient and accurate drafting -- and Spec-Verification -- a reliable method for verifying the drafted tokens efficiently in the decoding paradigm. Experimental results on various seq2seq tasks including machine translation and abstractive summarization show our approach can achieve around $5\\times$ speedup for the popular Transformer architectures with comparable generation quality to beam search decoding, refreshing the impression that the draft-then-verify paradigm introduces only $1.4\\times$$\\sim$$2\\times$ speedup. In addition to the remarkable speedup, we also demonstrate 3 additional advantages of SpecDec, revealing its practical value for accelerating generative models in real-world applications. Our models and codes are available at https://github.com/hemingkx/SpecDec.",
+    "published": "2022-03-30",
+    "authors": [
+     "Heming Xia",
+     "Tao Ge",
+     "Peiyi Wang",
+     "Si-Qing Chen",
+     "Furu Wei",
+     "Zhifang Sui"
+    ],
+    "aid": "2203.16487"
+   },
+   {
+    "id": "http://arxiv.org/abs/2402.01528v4",
+    "title": "Decoding Speculative Decoding",
+    "abstract": "Speculative Decoding is a widely used technique to speed up inference for Large Language Models (LLMs) without sacrificing quality. When performing inference, speculative decoding uses a smaller draft model to generate speculative tokens and then uses the target LLM to verify those draft tokens. The speedup provided by speculative decoding heavily depends on the choice of the draft model. In this work, we perform a detailed study comprising over 350 experiments with LLaMA-65B and OPT-66B using speculative decoding and delineate the factors that affect the performance gain provided by speculative decoding. Our experiments indicate that the performance of speculative decoding depends heavily on the latency of the draft model, and the draft model's capability in language modeling does not correlate strongly with its performance in speculative decoding. Based on these insights we explore a new design space for draft models and design hardware-efficient draft models for speculative decoding. Our newly designed draft model can provide 111% higher throughput than existing draft models and our approach generalizes further to all LLaMA models (1/2/3.1) and supervised fine-tuned models.",
+    "published": "2024-02-02",
+    "authors": [
+     "Minghao Yan",
+     "Saurabh Agarwal",
+     "Shivaram Venkataraman"
+    ],
+    "aid": "2402.01528"
+   },
+   {
+    "id": "http://arxiv.org/abs/2603.03251v3",
+    "title": "Speculative Speculative Decoding",
+    "abstract": "Autoregressive decoding is bottlenecked by its sequential nature. Speculative decoding has become a standard way to accelerate inference by using a fast draft model to predict upcoming tokens from a slower target model, and then verifying them in parallel with a single target model forward pass. However, speculative decoding itself relies on a sequential dependence between speculation and verification. We introduce speculative speculative decoding (SSD) to parallelize these operations. While a verification is ongoing, the draft model predicts likely verification outcomes and prepares speculations pre-emptively for them. If the actual verification outcome is then in the predicted set, a speculation can be returned immediately, eliminating drafting overhead entirely. We identify three key challenges presented by speculative speculative decoding, and suggest principled methods to solve each. The result is Saguaro, an optimized SSD algorithm. Our implementation is on average 30% faster than optimized speculative decoding baselines and up to 5x faster than autoregressive decoding with open source inference engines.",
+    "published": "2026-03-03",
+    "authors": [
+     "Tanishq Kumar",
+     "Tri Dao",
+     "Avner May"
+    ],
+    "aid": "2603.03251"
+   },
+   {
+    "id": "http://arxiv.org/abs/2503.03434v1",
+    "title": "RASD: Retrieval-Augmented Speculative Decoding",
+    "abstract": "Speculative decoding accelerates inference in large language models (LLMs) by generating draft tokens for target model verification. Current approaches for obtaining draft tokens rely on lightweight draft models or additional model structures to generate draft tokens and retrieve context from databases. Due to the draft model's small size and limited training data, model-based speculative decoding frequently becomes less effective in out-of-domain scenarios. Additionally, the time cost of the drafting phase results in a low upper limit on acceptance length during the verification step, limiting overall efficiency. This paper proposes RASD (Retrieval-Augmented Speculative Decoding), which adopts retrieval methods to enhance model-based speculative decoding. We introduce tree pruning and tree fusion to achieve this. Specifically, we develop a pruning method based on the draft model's probability distribution to construct the optimal retrieval tree. Second, we employ the longest prefix matching algorithm to merge the tree generated by the draft model with the retrieval tree, resulting in a unified tree for verification. Experimental results demonstrate that RASD achieves state-of-the-art inference acceleration across tasks such as DocQA, Summary, Code, and In-Domain QA. Moreover, RASD exhibits strong scalability, seamlessly integrating with various speculative decoding approaches, including both generation-based and retrieval-based methods.",
+    "published": "2025-03-05",
+    "authors": [
+     "Guofeng Quan",
+     "Wenfeng Feng",
+     "Chuzhan Hao",
+     "Guochao Jiang",
+     "Yuewei Zhang",
+     "Hao Wang"
+    ],
+    "aid": "2503.03434"
+   },
+   {
+    "id": "http://arxiv.org/abs/2506.01986v1",
+    "title": "SpecMemo: Speculative Decoding is in Your Pocket",
+    "abstract": "Recent advancements in speculative decoding have demonstrated considerable speedup across a wide array of large language model (LLM) tasks. Speculative decoding inherently relies on sacrificing extra memory allocations to generate several candidate tokens, of which acceptance rate drives the speedup. However, deploying speculative decoding on memory-constrained devices, such as mobile GPUs, remains as a significant challenge in real-world scenarios. In this work, we present a device-aware inference engine named SpecMemo that can smartly control memory allocations at finer levels to enable multi-turn chatbots with speculative decoding on such limited memory devices. Our methodology stems from theoretically modeling memory footprint of speculative decoding to determine a lower bound on the required memory budget while retaining speedup. SpecMemo empirically acquires a careful balance between minimizing redundant memory allocations for rejected candidate tokens and maintaining competitive performance gains from speculation. Notably, with SpecMemo's memory management, we maintain 96% of overall throughput from speculative decoding on MT-Bench, with reduced generation-memory by 65% on single Nvidia Titan RTX. Given multiple constrained GPUs, we build on top of previous speculative decoding architectures to facilitate big-model inference by distributing Llama-2-70B-Chat model, on which we provide novel batched speculative decoding to increase usability of multiple small server GPUs. This novel framework demonstrates 2x speedup over distributed and batched vanilla decoding with the base model on eight AMD MI250 GPUs. Moreover, inference throughput increases remarkably 8x with batch size 10. Our work contributes to democratized LLM applications in resource-constrained environments, providing a pathway for faster and cheaper deployment of real-world LLM applications with robust performance.",
+    "published": "2025-05-16",
+    "authors": [
+     "Selin Yildirim",
+     "Deming Chen"
+    ],
+    "aid": "2506.01986"
+   }
+  ]
+ },
+ {
+  "name": "Efficient attention & kernels",
+  "papers": [
+   {
+    "id": "http://arxiv.org/abs/2409.16997v2",
+    "title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+    "abstract": "As the foundation of large language models (LLMs), self-attention module faces the challenge of quadratic time and memory complexity with respect to sequence length. FlashAttention accelerates attention computation and reduces its memory usage by leveraging the GPU memory hierarchy. A promising research direction is to integrate FlashAttention with quantization methods. This paper introduces INT-FlashAttention, the first INT8 quantization architecture compatible with the forward workflow of FlashAttention, which significantly improves the inference speed of FlashAttention on Ampere GPUs. We implement our INT-FlashAttention prototype with fully INT8 activations and general matrix-multiplication (GEMM) kernels, making it the first attention operator with fully INT8 input. As a general token-level post-training quantization framework, INT-FlashAttention is also compatible with other data formats like INT4, etc. Experimental results show INT-FlashAttention achieves 72% faster inference speed and 82% smaller quantization error compared to standard FlashAttention with FP16 and FP8 data format.",
+    "published": "2024-09-25",
+    "authors": [
+     "Shimao Chen",
+     "Zirui Liu",
+     "Zhiying Wu",
+     "Ce Zheng",
+     "Peizhuang Cong",
+     "Zihan Jiang"
+    ],
+    "aid": "2409.16997"
+   },
+   {
+    "id": "http://arxiv.org/abs/2507.11331v4",
+    "title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+    "abstract": "Transformer models rely heavily on the scaled dot-product attention (SDPA) operation, typically implemented as FlashAttention. Characterized by its frequent interleaving of matrix multiplications and softmax operations, FlashAttention fails to fully utilize the compute resources of modern systolic-array-based accelerators designed for consecutive and large matrix multiplications. To fully unleash the performance potential of systolic arrays for FlashAttention, we propose FSA, an enhanced systolic array architecture that runs the entire FlashAttention on the array without external vector units. Combined with SystolicAttention, an optimized kernel for FSA that achieves fine-grained and element-wise overlapping of FlashAttention operations, FSA maximizes array utilization while preserving the original floating-point operation order of FlashAttention. We implement FSA in synthesizable RTL and evaluate its performance against state-of-the-art systolic-array-based accelerators. Our results show that FSA achieves 1.77x and 4.83x higher attention FLOPs/s utilization compared to AWS Neuron-v2 and Google TPUv5e, respectively. We synthesize FSA in a 16 nm technology at 1.5 GHz, and results indicate only a 12% area overhead compared to a standard weight-stationary systolic array.",
+    "published": "2025-07-15",
+    "authors": [
+     "Jiawei Lin",
+     "Yuanlong Li",
+     "Guokai Chen",
+     "Thomas Bourgeat"
+    ],
+    "aid": "2507.11331"
+   },
+   {
+    "id": "http://arxiv.org/abs/2505.14201v1",
+    "title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+    "abstract": "The transformer's attention mechanism has revolutionized AI and machine learning, with its efficient computation being crucial to its performance. However, calculating attention involves matrix operations interspersed with softmax rescaling, which inherently slows down computation and requires processing the entire input sequence. Building on online softmax computation, FlashAttention integrates softmax calculation with matrix arithmetic, enabling tiled computation independent of sequence length. While optimized for GPUs, FlashAttention's simplicity makes it amenable to direct hardware acceleration. This work re-evaluates the core FlashAttention kernel, presenting FLASH-D a mathematically equivalent, yet simplified, formulation that achieves: (a) hiding softmax division within other non-linear function evaluations; (b) inherently numerically stable computation of exponentials, eliminating the need for maximum value subtraction; and (c) a reduction in computational cost without introducing numerical approximations to the FlashAttention kernel. Importantly, the essential FlashAttention properties that facilitate efficient tiled implementation are fully preserved. Hardware implementation results at 28nm demonstrate that this proposed formulation achieves a 22.8% reduction in area and a 20.3% reduction in power, on average, compared to state-of-the-art parallel hardware architectures without any performance penalty.",
+    "published": "2025-05-20",
+    "authors": [
+     "Kosmas Alexandridis",
+     "Vasileios Titopoulos",
+     "Giorgos Dimitrakopoulos"
+    ],
+    "aid": "2505.14201"
+   },
+   {
+    "id": "http://arxiv.org/abs/2205.14135v2",
+    "title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "abstract": "Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length. Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup. We argue that a missing principle is making attention algorithms IO-aware -- accounting for reads and writes between levels of GPU memory. We propose FlashAttention, an IO-aware exact attention algorithm that uses tiling to reduce the number of memory reads/writes between GPU high bandwidth memory (HBM) and GPU on-chip SRAM. We analyze the IO complexity of FlashAttention, showing that it requires fewer HBM accesses than standard attention, and is optimal for a range of SRAM sizes. We also extend FlashAttention to block-sparse attention, yielding an approximate attention algorithm that is faster than any existing approximate attention method. FlashAttention trains Transformers faster than existing baselines: 15% end-to-end wall-clock speedup on BERT-large (seq. length 512) compared to the MLPerf 1.1 training speed record, 3$\\times$ speedup on GPT-2 (seq. length 1K), and 2.4$\\times$ speedup on long-range arena (seq. length 1K-4K). FlashAttention and block-sparse FlashAttention enable longer context in Transformers, yielding higher quality models (0.7 better perplexity on GPT-2 and 6.4 points of lift on long-document classification) and entirely new capabilities: the first Transformers to achieve better-than-chance performance on the Path-X challenge (seq. length 16K, 61.4% accuracy) and Path-256 (seq. length 64K, 63.1% accuracy).",
+    "published": "2022-05-27",
+    "authors": [
+     "Tri Dao",
+     "Daniel Y. Fu",
+     "Stefano Ermon",
+     "Atri Rudra",
+     "Christopher Ré"
+    ],
+    "aid": "2205.14135"
+   },
+   {
+    "id": "http://arxiv.org/abs/2508.00367v1",
+    "title": "Representation Shift: Unifying Token Compression with FlashAttention",
+    "abstract": "Transformers have demonstrated remarkable success across vision, language, and video. Yet, increasing task complexity has led to larger models and more tokens, raising the quadratic cost of self-attention and the overhead of GPU memory access. To reduce the computation cost of self-attention, prior work has proposed token compression techniques that drop redundant or less informative tokens. Meanwhile, fused attention kernels such as FlashAttention have been developed to alleviate memory overhead by avoiding attention map construction and its associated I/O to HBM. This, however, makes it incompatible with most training-free token compression methods, which rely on attention maps to determine token importance. Here, we propose Representation Shift, a training-free, model-agnostic metric that measures the degree of change in each token's representation. This seamlessly integrates token compression with FlashAttention, without attention maps or retraining. Our method further generalizes beyond Transformers to CNNs and state space models. Extensive experiments show that Representation Shift enables effective token compression compatible with FlashAttention, yielding significant speedups of up to 5.5% and 4.4% in video-text retrieval and video QA, respectively. Code is available at https://github.com/mlvlab/Representation-Shift.",
+    "published": "2025-08-01",
+    "authors": [
+     "Joonmyung Choi",
+     "Sanghyeok Lee",
+     "Byungoh Ko",
+     "Eunseo Kim",
+     "Jihyung Kil",
+     "Hyunwoo J. Kim"
+    ],
+    "aid": "2508.00367"
+   },
+   {
+    "id": "http://arxiv.org/abs/2505.14314v2",
+    "title": "Low-Cost FlashAttention with Fused Exponential and Multiplication Hardware Operators",
+    "abstract": "Attention mechanisms, particularly within Transformer architectures and large language models (LLMs), have revolutionized sequence modeling in machine learning and artificial intelligence applications. To compute attention for increasingly long sequences, specialized accelerators have been proposed to execute key attention steps directly in hardware. Among the various recently proposed architectures, those based on variants of the FlashAttention algorithm, originally designed for GPUs, stand out due to their optimized computation, tiling capabilities, and reduced memory traffic. In this work, we focus on optimizing the kernel of floating-point-based FlashAttention using new hardware operators that fuse the computation of exponentials and vector multiplications, e.g., e^x, V. The proposed ExpMul hardware operators significantly reduce the area and power costs of FlashAttention-based hardware accelerators. When implemented in a 28nm ASIC technology, they achieve improvements of 28.8% in area and 17.6% in power, on average, compared to state-of-the-art hardware architectures with separate exponentials and vector multiplications hardware operators.",
+    "published": "2025-05-20",
+    "authors": [
+     "Kosmas Alexandridis",
+     "Vasileios Titopoulos",
+     "Giorgos Dimitrakopoulos"
+    ],
+    "aid": "2505.14314"
+   }
+  ]
+ },
+ {
+  "name": "Serving systems & batching",
+  "papers": [
+   {
+    "id": "http://arxiv.org/abs/2201.09335v3",
+    "title": "On the throughput of the common target area for robotic swarm strategies -- extended version",
+    "abstract": "A robotic swarm may encounter traffic congestion when many robots simultaneously attempt to reach the same area. For solving that efficiently, robots must execute decentralised traffic control algorithms. In this work, we propose a measure for evaluating the access efficiency of a common target area as the number of robots in the swarm rises: the common target area throughput. We also employ here the target area asymptotic throughput -- that is, the throughput of a target region with a limited area as the time tends to infinity -- because it is always finite as the number of robots grows, opposed to the relation arrival time at the target per number of robots that tends to infinity. Using this measure, we can analytically compare the effectiveness of different algorithms. In particular, we propose and formally evaluate three different theoretical strategies for getting to a circular target area: (i) forming parallel queues towards the target area, (ii) forming a hexagonal packing through a corridor going to the target, and (iii) making multiple curved trajectories towards the boundary of the target area. We calculate the throughput for a fixed time and the asymptotic throughput for these strategies. Additionally, we corroborate these results by simulations, showing that when a strategy has higher throughput, its arrival time per number of robots is lower. Thus, we conclude that using throughput is well suited for comparing congestion algorithms for a common target area in robotic swarms even if we do not have their closed asymptotic equation.",
+    "published": "2022-01-23",
+    "authors": [
+     "Yuri Tavares dos Passos",
+     "Xavier Duquesne",
+     "Leandro Soriano Marcolino"
+    ],
+    "aid": "2201.09335"
+   },
+   {
+    "id": "http://arxiv.org/abs/2503.04253v1",
+    "title": "ADOR: A Design Exploration Framework for LLM Serving with Enhanced Latency and Throughput",
+    "abstract": "The growing adoption of Large Language Models (LLMs) across various domains has driven the demand for efficient and scalable AI-serving solutions. Deploying LLMs requires optimizations to manage their significant computational and data demands. The prefill stage processes large numbers of input tokens in parallel, increasing computational load, while the decoding stage relies heavily on memory bandwidth due to the auto-regressive nature of LLMs. Current hardware, such as GPUs, often fails to balance these demands, leading to inefficient utilization. While batching improves hardware efficiency, it delays response times, degrading Quality-of-Service (QoS). This disconnect between vendors, who aim to maximize resource efficiency, and users, who prioritize low latency, highlights the need for a better solution. To address this, we propose ADOR, a framework that automatically identifies and recommends hardware architectures tailored to LLM serving. By leveraging predefined architecture templates specialized for heterogeneous dataflows, ADOR optimally balances throughput and latency. It efficiently explores design spaces to suggest architectures that meet the requirements of both vendors and users. ADOR demonstrates substantial performance improvements, achieving 2.51x higher QoS and 4.01x better area efficiency compared to the A100 at high batch sizes, making it a robust solution for scalable and cost-effective LLM serving.",
+    "published": "2025-03-06",
+    "authors": [
+     "Junsoo Kim",
+     "Hunjong Lee",
+     "Geonwoo Ko",
+     "Gyubin Choi",
+     "Seri Ham",
+     "Seongmin Hong"
+    ],
+    "aid": "2503.04253"
+   },
+   {
+    "id": "http://arxiv.org/abs/2503.20552v1",
+    "title": "Injecting Adrenaline into LLM Serving: Boosting Resource Utilization and Throughput via Attention Disaggregation",
+    "abstract": "In large language model (LLM) serving systems, executing each request consists of two phases: the compute-intensive prefill phase and the memory-intensive decoding phase. To prevent performance interference between the two phases, current LLM serving systems typically adopt prefill-decoding disaggregation, where the two phases are split across separate machines. However, we observe this approach leads to significant resource underutilization. Specifically, prefill instances that are compute-intensive suffer from low memory utilization, while decoding instances that are memory-intensive experience low compute utilization. To address this problem, this paper proposes Adrenaline, an attention disaggregation and offloading mechanism designed to enhance resource utilization and performance in LLM serving systems. Adrenaline's key innovation lies in disaggregating part of the attention computation in the decoding phase and offloading them to prefill instances. The memory-bound nature of decoding-phase attention computation inherently enables an effective offloading strategy, yielding two complementary advantages: 1) improved memory capacity and bandwidth utilization in prefill instances, and 2) increased decoding batch sizes that enhance compute utilization in decoding instances, collectively boosting overall system performance. Adrenaline achieves these gains through three key techniques: low-latency decoding synchronization, resource-efficient prefill colocation, and load-aware offloading scheduling. Experimental results show that Adrenaline achieves 2.28x higher memory capacity and 2.07x better memory bandwidth utilization in prefill instances, up to 1.67x improvements in compute utilization for decoding instances, and 1.68x higher overall inference throughput compared to state-of-the-art systems.",
+    "published": "2025-03-26",
+    "authors": [
+     "Yunkai Liang",
+     "Zhangyu Chen",
+     "Pengfei Zuo",
+     "Zhi Zhou",
+     "Xu Chen",
+     "Zhou Yu"
+    ],
+    "aid": "2503.20552"
+   },
+   {
+    "id": "http://arxiv.org/abs/2401.17644v5",
+    "title": "BurstGPT: A Real-world Workload Dataset to Optimize LLM Serving Systems",
+    "abstract": "Serving systems for Large Language Models (LLMs) are often optimized to improve quality of service (QoS) and throughput. However, due to the lack of open-source LLM serving workloads, these systems are frequently evaluated under unrealistic workload assumptions. Consequently, performance may degrade when systems are deployed in real-world scenarios. This work presents BurstGPT, an LLM serving workload with 10.31 million traces from regional Azure OpenAI GPT services over 213 days. BurstGPT captures LLM serving characteristics from user, model and system perspectives: (1) User request concurrency: burstiness variations of requests in Azure OpenAI GPT services, revealing diversified concurrency patterns in different services and model types. (2) User conversation patterns: counts and intervals within conversations for service optimizations. (3) Model response lengths: auto-regressive serving processes of GPT models, showing statistical relations between requests and their responses. (4) System response failures: failures of conversation and API services, showing intensive resource needs and limited availability of LLM services in Azure. The details of the characteristics can serve multiple purposes in LLM serving optimizations, such as system evaluation and trace provisioning. In our demo evaluation with BurstGPT, frequent variations in BurstGPT reveal declines in efficiency, stability, or reliability in realistic LLM serving. We identify that the generalization of KV cache management, scheduling and disaggregation optimizations can be improved under realistic workload evaluations. BurstGPT is publicly available now at https://github.com/HPMLL/BurstGPT and is widely used to develop prototypes of LLM serving frameworks in the industry.",
+    "published": "2024-01-31",
+    "authors": [
+     "Yuxin Wang",
+     "Yuhan Chen",
+     "Zeyu Li",
+     "Xueze Kang",
+     "Yuchu Fang",
+     "Yeju Zhou"
+    ],
+    "aid": "2401.17644"
+   },
+   {
+    "id": "http://arxiv.org/abs/2408.00008v2",
+    "title": "ScaleLLM: A Resource-Frugal LLM Serving Framework by Optimizing End-to-End Efficiency",
+    "abstract": "Large language models (LLMs) have surged in popularity and are extensively used in commercial applications, where the efficiency of model serving is crucial for the user experience. Most current research focuses on optimizing individual sub-procedures, e.g. local inference and communication, however, there is no comprehensive framework that provides a holistic system view for optimizing LLM serving in an end-to-end manner. In this work, we conduct a detailed analysis to identify major bottlenecks that impact end-to-end latency in LLM serving systems. Our analysis reveals that a comprehensive LLM serving endpoint must address a series of efficiency bottlenecks that extend beyond LLM inference. We then propose ScaleLLM, an optimized system for resource-efficient LLM serving. Our extensive experiments reveal that with 64 concurrent requests, ScaleLLM achieves a 4.3x speed up over vLLM and outperforms state-of-the-arts with 1.5x higher throughput.",
+    "published": "2024-07-23",
+    "authors": [
+     "Yuhang Yao",
+     "Han Jin",
+     "Alay Dilipbhai Shah",
+     "Shanshan Han",
+     "Zijian Hu",
+     "Yide Ran"
+    ],
+    "aid": "2408.00008"
+   },
+   {
+    "id": "http://arxiv.org/abs/2605.23389v1",
+    "title": "AlignedServe: Orchestrating Prefix-aware Batching to Build a High-throughput and Computing-efficient LLM Serving System",
+    "abstract": "High-throughput inference serving is essential for applications built on large language models (LLMs). Existing serving frameworks reduce request-level and batch-level bubbles through batching and scheduling, but often overlook bubbles within each decode iteration. Tokens generated in the same iteration may incur different costs because they depend on KV caches of different lengths; tokens with long KV caches can become bottlenecks and delay the next iteration. We propose AlignedServe, an LLM serving framework built around prefix-aware batching. It groups requests with similar KV-cache lengths into the same batch to reduce iteration-level bubbles. To support this policy efficiently, AlignedServe uses large CPU memory to maintain sufficient in-flight requests for batching and applies a batch-level scheduling policy to reduce batch-level bubbles. It also introduces a GPU-Prefetch-For-GPU architecture, where one GPU prefetches KV cache for another to reduce CPU-to-GPU transfer latency. Experiments on synthetic and application workloads show that AlignedServe improves decoding throughput by up to 1.98 times and reduces latency by up to 7.4 times over state-of-the-art systems.",
+    "published": "2026-05-22",
+    "authors": [
+     "Fengyao Bai",
+     "Hongbin Zhang",
+     "Zhitao Chen",
+     "Jiangsu Du",
+     "Zhiguang Chen",
+     "Yutong Lu"
+    ],
+    "aid": "2605.23389"
+   }
+  ]
+ },
+ {
+  "name": "Mixture-of-Experts inference",
+  "papers": [
+   {
+    "id": "http://arxiv.org/abs/2410.17954v2",
+    "title": "ExpertFlow: Efficient Mixture-of-Experts Inference via Predictive Expert Caching and Token Scheduling",
+    "abstract": "Sparse Mixture-of-Experts (MoE) models can outperform dense large language models at similar computation by activating only a small set of experts per token. However, stacking many expert modules introduces substantial parameter memory, which makes MoE models difficult to deploy in memory-constrained environments such as single-GPU devices. Offloading alleviates this issue by storing inactive experts in CPU memory and loading them on demand, but existing methods remain limited: static caches disregard input-dependent routing, and methods that train separate models to predict expert usage ahead of time are often inaccurate or require significant training cost. We propose ExpertFlow, a lightweight MoE inference system that addresses this routing dependency through three coordinated components: 1) a transformer-based routing path predictor that estimates expert usage across all MoE layers in a single forward pass, 2) a token scheduler that groups tokens with similar predicted routes to improve expert utilization, and 3) a predictive expert cache that loads only the required experts while correcting mispredictions at runtime. Together, these components enable efficient expert loading and execution, reducing GPU memory usage by up to 93.72% and improving inference throughput by up to 10x over strong offloading baselines on a single GPU.",
+    "published": "2024-10-23",
+    "authors": [
+     "Xin He",
+     "Shunkang Zhang",
+     "Kaijie Tang",
+     "Shaohuai Shi",
+     "Yuxin Wang",
+     "Zihao Zeng"
+    ],
+    "aid": "2410.17954"
+   },
+   {
+    "id": "http://arxiv.org/abs/2602.09258v1",
+    "title": "Generalizing GNNs with Tokenized Mixture of Experts",
+    "abstract": "Deployed graph neural networks (GNNs) are frozen at deployment yet must fit clean data, generalize under distribution shifts, and remain stable to perturbations. We show that static inference induces a fundamental tradeoff: improving stability requires reducing reliance on shift-sensitive features, leaving an irreducible worst-case generalization floor. Instance-conditional routing can break this ceiling, but is fragile because shifts can mislead routing and perturbations can make routing fluctuate. We capture these effects via two decompositions separating coverage vs selection, and base sensitivity vs fluctuation amplification. Based on these insights, we propose STEM-GNN, a pretrain-then-finetune framework with a mixture-of-experts encoder for diverse computation paths, a vector-quantized token interface to stabilize encoder-to-head signals, and a Lipschitz-regularized head to bound output amplification. Across nine node, link, and graph benchmarks, STEM-GNN achieves a stronger three-way balance, improving robustness to degree/homophily shifts and to feature/edge corruptions while remaining competitive on clean graphs.",
+    "published": "2026-02-09",
+    "authors": [
+     "Xiaoguang Guo",
+     "Zehong Wang",
+     "Jiazheng Li",
+     "Shawn Spitzel",
+     "Qi Yang",
+     "Kaize Ding"
+    ],
+    "aid": "2602.09258"
+   },
+   {
+    "id": "http://arxiv.org/abs/2402.14800v2",
+    "title": "Not All Experts are Equal: Efficient Expert Pruning and Skipping for Mixture-of-Experts Large Language Models",
+    "abstract": "A pivotal advancement in the progress of large language models (LLMs) is the emergence of the Mixture-of-Experts (MoE) LLMs. Compared to traditional LLMs, MoE LLMs can achieve higher performance with fewer parameters, but it is still hard to deploy them due to their immense parameter sizes. Different from previous weight pruning methods that rely on specifically designed hardware, this paper mainly aims to enhance the deployment efficiency of MoE LLMs by introducing plug-and-play expert-level sparsification techniques. Specifically, we propose, for the first time to our best knowledge, post-training approaches for task-agnostic and task-specific expert pruning and skipping of MoE LLMs, tailored to improve deployment efficiency while maintaining model performance across a wide range of tasks. Extensive experiments show that our proposed methods can simultaneously reduce model sizes and increase the inference speed, while maintaining satisfactory performance. Data and code will be available at https://github.com/Lucky-Lance/Expert_Sparsity.",
+    "published": "2024-02-22",
+    "authors": [
+     "Xudong Lu",
+     "Qi Liu",
+     "Yuhui Xu",
+     "Aojun Zhou",
+     "Siyuan Huang",
+     "Bo Zhang"
+    ],
+    "aid": "2402.14800"
+   },
+   {
+    "id": "http://arxiv.org/abs/2503.03213v1",
+    "title": "Convergence Rates for Softmax Gating Mixture of Experts",
+    "abstract": "Mixture of experts (MoE) has recently emerged as an effective framework to advance the efficiency and scalability of machine learning models by softly dividing complex tasks among multiple specialized sub-models termed experts. Central to the success of MoE is an adaptive softmax gating mechanism which takes responsibility for determining the relevance of each expert to a given input and then dynamically assigning experts their respective weights. Despite its widespread use in practice, a comprehensive study on the effects of the softmax gating on the MoE has been lacking in the literature. To bridge this gap in this paper, we perform a convergence analysis of parameter estimation and expert estimation under the MoE equipped with the standard softmax gating or its variants, including a dense-to-sparse gating and a hierarchical softmax gating, respectively. Furthermore, our theories also provide useful insights into the design of sample-efficient expert structures. In particular, we demonstrate that it requires polynomially many data points to estimate experts satisfying our proposed \\emph{strong identifiability} condition, namely a commonly used two-layer feed-forward network. In stark contrast, estimating linear experts, which violate the strong identifiability condition, necessitates exponentially many data points as a result of intrinsic parameter interactions expressed in the language of partial differential equations. All the theoretical results are substantiated with a rigorous guarantee.",
+    "published": "2025-03-05",
+    "authors": [
+     "Huy Nguyen",
+     "Nhat Ho",
+     "Alessandro Rinaldo"
+    ],
+    "aid": "2503.03213"
+   },
+   {
+    "id": "http://arxiv.org/abs/1902.11104v3",
+    "title": "Tensor-variate Mixture of Experts for Proportional Myographic Control of a Robotic Hand",
+    "abstract": "When data are organized in matrices or arrays of higher dimensions (tensors), classical regression methods first transform these data into vectors, therefore ignoring the underlying structure of the data and increasing the dimensionality of the problem. This flattening operation typically leads to overfitting when only few training data is available. In this paper, we present a mixture-of-experts model that exploits tensorial representations for regression of tensor-valued data. The proposed formulation takes into account the underlying structure of the data and remains efficient when few training data are available. Evaluation on artificially generated data, as well as offline and real-time experiments recognizing hand movements from tactile myography prove the effectiveness of the proposed approach.",
+    "published": "2019-02-28",
+    "authors": [
+     "Noémie Jaquier",
+     "Robert Haschke",
+     "Sylvain Calinon"
+    ],
+    "aid": "1902.11104"
+   },
+   {
+    "id": "http://arxiv.org/abs/2601.15021v1",
+    "title": "Mixture-of-Experts Models in Vision: Routing, Optimization, and Generalization",
+    "abstract": "Mixture-of-Experts (MoE) architectures enable conditional computation by routing inputs to multiple expert subnetworks and are often motivated as a mechanism for scaling large language models. In this project, we instead study MoE behavior in an image classification setting, focusing on predictive performance, expert utilization, and generalization. We compare dense, SoftMoE, and SparseMoE classifier heads on the CIFAR10 dataset under comparable model capacity. Both MoE variants achieve slightly higher validation accuracy than the dense baseline while maintaining balanced expert utilization through regularization, avoiding expert collapse. To analyze generalization, we compute Hessian-based sharpness metrics at convergence, including the largest eigenvalue and trace of the loss Hessian, evaluated on both training and test data. We find that SoftMoE exhibits higher sharpness by these metrics, while Dense and SparseMoE lie in a similar curvature regime, despite all models achieving comparable generalization performance. Complementary loss surface perturbation analyses reveal qualitative differences in non-local behavior under finite parameter perturbations between dense and MoE models, which help contextualize curvature-based measurements without directly explaining validation accuracy. We further evaluate empirical inference efficiency and show that naively implemented conditional routing does not yield inference speedups on modern hardware at this scale, highlighting the gap between theoretical and realized efficiency in sparse MoE models.",
+    "published": "2026-01-21",
+    "authors": [
+     "Adam Rokah",
+     "Daniel Veress",
+     "Caleb Caulk",
+     "Sourav Sharan"
+    ],
+    "aid": "2601.15021"
+   }
+  ]
+ },
+ {
+  "name": "Long-context inference",
+  "papers": [
+   {
+    "id": "http://arxiv.org/abs/2603.20586v2",
+    "title": "MKA: Memory-Keyed Attention for Efficient Long-Context Reasoning",
+    "abstract": "As long-context language modeling becomes increasingly important, the cost of maintaining and attending to large Key/Value (KV) caches grows rapidly, becoming a major bottleneck in both training and inference. While prior works such as Multi-Query Attention (MQA) and Multi-Latent Attention (MLA) reduce memory by sharing or compressing KV features, they often trade off representation quality or incur runtime overhead. We propose Memory-Keyed Attention (MKA), a hierarchical attention mechanism that integrates multi-level KV caches (local, session, and long-term) and learns to route attention across them dynamically. We further introduce Route-Fused MKA (FastMKA), a broadcast-routed variant that fuses memory sources before attention computation for improved efficiency. Experiments on different sequence lengths show that FastMKA achieves a favorable accuracy-efficiency trade-off: comparable perplexity to MLA while achieving up to 5x faster training throughput and 1.8x lower evaluation latency. These results highlight MKA as a practical and extensible framework for efficient long-context attention.",
+    "published": "2026-03-21",
+    "authors": [
+     "Dong Liu",
+     "Yanxuan Yu",
+     "Ben Lengerich",
+     "Ying Nian Wu"
+    ],
+    "aid": "2603.20586"
+   },
+   {
+    "id": "http://arxiv.org/abs/2505.09561v2",
+    "title": "Learning Long-Context Diffusion Policies via Past-Token Prediction",
+    "abstract": "Reasoning over long sequences of observations and actions is essential for many robotic tasks. Yet, learning effective long-context policies from demonstrations remains challenging. As context length increases, training becomes increasingly expensive due to rising memory demands, and policy performance often degrades as a result of spurious correlations. Recent methods typically sidestep these issues by truncating context length, discarding historical information that may be critical for subsequent decisions. In this paper, we propose an alternative approach that explicitly regularizes the retention of past information. We first revisit the copycat problem in imitation learning and identify an opposite challenge in recent diffusion policies: rather than over-relying on prior actions, they often fail to capture essential dependencies between past and future actions. To address this, we introduce Past-Token Prediction (PTP), an auxiliary task in which the policy learns to predict past action tokens alongside future ones. This regularization significantly improves temporal modeling in the policy head, with minimal reliance on visual representations. Building on this observation, we further introduce a multistage training strategy: pre-train the visual encoder with short contexts, and fine-tune the policy head using cached long-context embeddings. This strategy preserves the benefits of PTP while greatly reducing memory and computational overhead. Finally, we extend PTP into a self-verification mechanism at test time, enabling the policy to score and select candidates consistent with past actions during inference. Experiments across four real-world and six simulated tasks demonstrate that our proposed method improves the performance of long-context diffusion policies by 3x and accelerates policy training by more than 10x.",
+    "published": "2025-05-14",
+    "authors": [
+     "Marcel Torne",
+     "Andy Tang",
+     "Yuejiang Liu",
+     "Chelsea Finn"
+    ],
+    "aid": "2505.09561"
+   },
+   {
+    "id": "http://arxiv.org/abs/2502.17129v2",
+    "title": "Thus Spake Long-Context Large Language Model",
+    "abstract": "Long context is an important topic in Natural Language Processing (NLP), running through the development of NLP architectures, and offers immense opportunities for Large Language Models (LLMs), giving LLMs the lifelong learning potential akin to humans. Unfortunately, the pursuit of a long context is accompanied by numerous obstacles. Nevertheless, long context remains a core competitive advantage for LLMs. In the past two years, the context length of LLMs has achieved a breakthrough extension to millions of tokens. Moreover, research on long-context LLMs has expanded beyond length extrapolation to a comprehensive focus on architecture, infrastructure, training, and evaluation technologies. Inspired by the symphonic poem, Thus Spake Zarathustra, we draw an analogy between the journey of extending the context of LLM and the attempts of humans to transcend their mortality. In this survey, we will illustrate how LLM struggles between the tremendous need for a longer context and its equal need to accept the fact that it is ultimately finite. To achieve this, we give a global picture of the lifecycle of long-context LLMs from four perspectives: architecture, infrastructure, training, and evaluation, showcasing the full spectrum of long-context technologies. At the end of this survey, we will present 10 unanswered questions currently faced by long-context LLMs. We hope this survey can serve as a systematic introduction to research on long-context LLMs. Video: https://www.bilibili.com/video/BV11h9AYoEYj. Github: https://github.com/OpenMOSS/Thus-Spake-Long-Context-LLM.",
+    "published": "2025-02-24",
+    "authors": [
+     "Xiaoran Liu",
+     "Ruixiao Li",
+     "Mianqiu Huang",
+     "Zhigeng Liu",
+     "Yuerong Song",
+     "Qipeng Guo"
+    ],
+    "aid": "2502.17129"
+   },
+   {
+    "id": "http://arxiv.org/abs/2601.15305v1",
+    "title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+    "abstract": "The computational burden of attention in long-context language models has motivated two largely independent lines of work: sparse attention mechanisms that reduce complexity by attending to selected tokens, and gated attention variants that improve training sta-bility while mitigating the attention sink phenomenon. We observe that these approaches address complementary weaknesses and propose Gated Sparse Attention (GSA), an architecture that realizes the benefits of both. GSA incorporates a gated lightning indexer with sigmoid activations that produce bounded, interpretable selection scores, an adaptive sparsity controller that modulates the number of attended tokens based on local uncertainty, and dual gating at the value and output stages. We establish theoretical foundations for the approach, including complexity analysis, expressiveness results, and convergence guarantees. In experiments with 1.7B parameter models trained on 400B tokens, GSA matches the efficiency of sparse-only baselines (12-16x speedup at 128K context) while achieving the quality gains associated with gated attention: perplexity improves from 6.03 to 5.70, RULER scores at 128K context nearly double, and attention to the first token, a proxy for attention sinks, drops from 47% to under 4%. Training stability improves markedly, with loss spikes reduced by 98%.",
+    "published": "2026-01-12",
+    "authors": [
+     "Alfred Shen",
+     "Aaron Shen"
+    ],
+    "aid": "2601.15305"
+   },
+   {
+    "id": "http://arxiv.org/abs/2503.10589v1",
+    "title": "Long Context Tuning for Video Generation",
+    "abstract": "Recent advances in video generation can produce realistic, minute-long single-shot videos with scalable diffusion transformers. However, real-world narrative videos require multi-shot scenes with visual and dynamic consistency across shots. In this work, we introduce Long Context Tuning (LCT), a training paradigm that expands the context window of pre-trained single-shot video diffusion models to learn scene-level consistency directly from data. Our method expands full attention mechanisms from individual shots to encompass all shots within a scene, incorporating interleaved 3D position embedding and an asynchronous noise strategy, enabling both joint and auto-regressive shot generation without additional parameters. Models with bidirectional attention after LCT can further be fine-tuned with context-causal attention, facilitating auto-regressive generation with efficient KV-cache. Experiments demonstrate single-shot models after LCT can produce coherent multi-shot scenes and exhibit emerging capabilities, including compositional generation and interactive shot extension, paving the way for more practical visual content creation. See https://guoyww.github.io/projects/long-context-video/ for more details.",
+    "published": "2025-03-13",
+    "authors": [
+     "Yuwei Guo",
+     "Ceyuan Yang",
+     "Ziyan Yang",
+     "Zhibei Ma",
+     "Zhijie Lin",
+     "Zhenheng Yang"
+    ],
+    "aid": "2503.10589"
+   },
+   {
+    "id": "http://arxiv.org/abs/2410.05690v2",
+    "title": "Long-Context Linear System Identification",
+    "abstract": "This paper addresses the problem of long-context linear system identification, where the state $x_t$ of a dynamical system at time $t$ depends linearly on previous states $x_s$ over a fixed context window of length $p$. We establish a sample complexity bound that matches the i.i.d. parametric rate up to logarithmic factors for a broad class of systems, extending previous works that considered only first-order dependencies. Our findings reveal a learning-without-mixing phenomenon, indicating that learning long-context linear autoregressive models is not hindered by slow mixing properties potentially associated with extended context windows. Additionally, we extend these results to (i) shared low-rank representations, where rank-regularized estimators improve the dependence of the rates on the dimensionality, and (ii) misspecified context lengths in strictly stable systems, where shorter contexts offer statistical advantages.",
+    "published": "2024-10-08",
+    "authors": [
+     "Oğuz Kaan Yüksel",
+     "Mathieu Even",
+     "Nicolas Flammarion"
+    ],
+    "aid": "2410.05690"
+   }
+  ]
+ },
+ {
+  "name": "Pruning, sparsity & distillation",
+  "papers": [
+   {
+    "id": "http://arxiv.org/abs/2402.11651v2",
+    "title": "Learning From Failure: Integrating Negative Examples when Fine-tuning Large Language Models as Agents",
+    "abstract": "Large language models (LLMs) have achieved success in acting as agents, which interact with environments through tools such as search engines. However, LLMs are optimized for language generation instead of tool use during training or alignment, limiting their effectiveness as agents. To resolve this problem, previous work has first collected interaction trajectories between LLMs and environments, using only trajectories that successfully finished the task to fine-tune smaller models, making fine-tuning data scarce and acquiring it both difficult and costly. Discarding failed trajectories also leads to significant wastage of data and resources and limits the possible optimization paths during fine-tuning. In this paper, we argue that unsuccessful trajectories offer valuable insights, and LLMs can learn from these trajectories through appropriate quality control and fine-tuning strategies. By simply adding a prefix or suffix that tells the model whether to generate a successful trajectory during training, we improve model performance by a large margin on mathematical reasoning, multi-hop question answering, and strategic question answering tasks. We further analyze the inference results and find that our method provides a better trade-off between valuable information and errors in unsuccessful trajectories. To our knowledge, we are the first to demonstrate the value of negative trajectories and their application in agent-tunning scenarios. Our findings offer guidance for developing better agent-tuning methods and low-resource data usage techniques.",
+    "published": "2024-02-18",
+    "authors": [
+     "Renxi Wang",
+     "Haonan Li",
+     "Xudong Han",
+     "Yixuan Zhang",
+     "Timothy Baldwin"
+    ],
+    "aid": "2402.11651"
+   },
+   {
+    "id": "http://arxiv.org/abs/2312.10793v3",
+    "title": "Demystifying Instruction Mixing for Fine-tuning Large Language Models",
+    "abstract": "Instruction tuning significantly enhances the performance of large language models (LLMs) across various tasks. However, the procedure to optimizing the mixing of instruction datasets for LLM fine-tuning is still poorly understood. This study categorizes instructions into three primary types: NLP downstream tasks, coding, and general chat. We explore the effects of instruction tuning on different combinations of datasets on LLM performance, and find that certain instruction types are more advantageous for specific applications but can negatively impact other areas. This work provides insights into instruction mixtures, laying the foundations for future research.",
+    "published": "2023-12-17",
+    "authors": [
+     "Renxi Wang",
+     "Haonan Li",
+     "Minghao Wu",
+     "Yuxia Wang",
+     "Xudong Han",
+     "Chiyu Zhang"
+    ],
+    "aid": "2312.10793"
+   },
+   {
+    "id": "http://arxiv.org/abs/2304.12244v3",
+    "title": "WizardLM: Empowering large pre-trained language models to follow complex instructions",
+    "abstract": "Training large language models (LLMs) with open-domain instruction following data brings colossal success. However, manually creating such instruction data is very time-consuming and labor-intensive. Moreover, humans may struggle to produce high-complexity instructions. In this paper, we show an avenue for creating large amounts of instruction data with varying levels of complexity using LLM instead of humans. Starting with an initial set of instructions, we use our proposed Evol-Instruct to rewrite them step by step into more complex instructions. Then, we mix all generated instruction data to fine-tune LLaMA. We call the resulting model WizardLM. Human evaluations on a complexity-balanced test bed and Vicuna's testset show that instructions from Evol-Instruct are superior to human-created ones. By analyzing the human evaluation results of the high complexity part, we demonstrate that outputs from our WizardLM are preferred to outputs from OpenAI ChatGPT. In GPT-4 automatic evaluation, WizardLM achieves more than 90\\% capacity of ChatGPT on 17 out of 29 skills. Even though WizardLM still lags behind ChatGPT in some aspects, our findings suggest that fine-tuning with AI-evolved instructions is a promising direction for enhancing LLMs. Our code and data are public at https://github.com/nlpxucan/WizardLM",
+    "published": "2023-04-24",
+    "authors": [
+     "Can Xu",
+     "Qingfeng Sun",
+     "Kai Zheng",
+     "Xiubo Geng",
+     "Pu Zhao",
+     "Jiazhan Feng"
+    ],
+    "aid": "2304.12244"
+   },
+   {
+    "id": "http://arxiv.org/abs/2310.00034v2",
+    "title": "PB-LLM: Partially Binarized Large Language Models",
+    "abstract": "This paper explores network binarization, a radical form of quantization, compressing model weights to a single bit, specifically for Large Language Models (LLMs) compression. Due to previous binarization methods collapsing LLMs, we propose a novel approach, Partially-Binarized LLM (PB-LLM), which can achieve extreme low-bit quantization while maintaining the linguistic reasoning capacity of quantized LLMs. Specifically, our exploration first uncovers the ineffectiveness of naive applications of existing binarization algorithms and highlights the imperative role of salient weights in achieving low-bit quantization. Thus, PB-LLM filters a small ratio of salient weights during binarization, allocating them to higher-bit storage, i.e., partially-binarization. PB-LLM is extended to recover the capacities of quantized LMMs, by analyzing from the perspective of post-training quantization (PTQ) and quantization-aware training (QAT). Under PTQ, combining the concepts from GPTQ, we reconstruct the binarized weight matrix guided by the Hessian matrix and successfully recover the reasoning capacity of PB-LLM in low-bit. Under QAT, we freeze the salient weights during training, explore the derivation of optimal scaling factors crucial for minimizing the quantization error, and propose a scaling mechanism based on this derived scaling strategy for residual binarized weights. Those explorations and the developed methodologies significantly contribute to rejuvenating the performance of low-bit quantized LLMs and present substantial advancements in the field of network binarization for LLMs.The code is available at https://github.com/hahnyuan/BinaryLLM.",
+    "published": "2023-09-29",
+    "authors": [
+     "Yuzhang Shang",
+     "Zhihang Yuan",
+     "Qiang Wu",
+     "Zhen Dong"
+    ],
+    "aid": "2310.00034"
+   },
+   {
+    "id": "http://arxiv.org/abs/2308.16149v2",
+    "title": "Jais and Jais-chat: Arabic-Centric Foundation and Instruction-Tuned Open Generative Large Language Models",
+    "abstract": "We introduce Jais and Jais-chat, new state-of-the-art Arabic-centric foundation and instruction-tuned open generative large language models (LLMs). The models are based on the GPT-3 decoder-only architecture and are pretrained on a mixture of Arabic and English texts, including source code in various programming languages. With 13 billion parameters, they demonstrate better knowledge and reasoning capabilities in Arabic than any existing open Arabic and multilingual models by a sizable margin, based on extensive evaluation. Moreover, the models are competitive in English compared to English-centric open models of similar size, despite being trained on much less English data. We provide a detailed description of the training, the tuning, the safety alignment, and the evaluation of the models. We release two open versions of the model -- the foundation Jais model, and an instruction-tuned Jais-chat variant -- with the aim of promoting research on Arabic LLMs. Available at https://huggingface.co/inception-mbzuai/jais-13b-chat",
+    "published": "2023-08-30",
+    "authors": [
+     "Neha Sengupta",
+     "Sunil Kumar Sahu",
+     "Bokang Jia",
+     "Satheesh Katipomu",
+     "Haonan Li",
+     "Fajri Koto"
+    ],
+    "aid": "2308.16149"
+   },
+   {
+    "id": "http://arxiv.org/abs/2004.08116v1",
+    "title": "Triplet Loss for Knowledge Distillation",
+    "abstract": "In recent years, deep learning has spread rapidly, and deeper, larger models have been proposed. However, the calculation cost becomes enormous as the size of the models becomes larger. Various techniques for compressing the size of the models have been proposed to improve performance while reducing computational costs. One of the methods to compress the size of the models is knowledge distillation (KD). Knowledge distillation is a technique for transferring knowledge of deep or ensemble models with many parameters (teacher model) to smaller shallow models (student model). Since the purpose of knowledge distillation is to increase the similarity between the teacher model and the student model, we propose to introduce the concept of metric learning into knowledge distillation to make the student model closer to the teacher model using pairs or triplets of the training samples. In metric learning, the researchers are developing the methods to build a model that can increase the similarity of outputs for similar samples. Metric learning aims at reducing the distance between similar and increasing the distance between dissimilar. The functionality of the metric learning to reduce the differences between similar outputs can be used for the knowledge distillation to reduce the differences between the outputs of the teacher model and the student model. Since the outputs of the teacher model for different objects are usually different, the student model needs to distinguish them. We think that metric learning can clarify the difference between the different outputs, and the performance of the student model could be improved. We have performed experiments to compare the proposed method with state-of-the-art knowledge distillation methods.",
+    "published": "2020-04-17",
+    "authors": [
+     "Hideki Oki",
+     "Motoshi Abe",
+     "Junichi Miyao",
+     "Takio Kurita"
+    ],
+    "aid": "2004.08116"
+   }
+  ]
+ }
+]

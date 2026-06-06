@@ -12,26 +12,26 @@ cloud model and no human-in-the-loop in the generation path.
 
 ## How they're generated
 
-A deterministic **map-reduce** (see [`generator/`](generator/)):
+A deterministic **map-reduce**, all reasoning on the local model
+([`generator/build_digest.py`](generator/build_digest.py)):
 
-1. **Scrape** — [`arxiv_fetch.py`](generator/arxiv_fetch.py) queries the arXiv Atom API per
-   subtopic (phrase-matched, relevance-sorted) and parses titles + abstracts.
-2. **Distill** — [`run.py`](generator/run.py) sends each paper to the local model in a single
-   short call → bullet contributions.
+1. **Scrape** — query the arXiv Atom API per subtopic (phrase-matched, relevance-sorted).
+2. **Distill** — each paper → bullet contributions (one local call).
 3. **Synthesize** — one local call per subtopic.
 4. **Reduce** — one local call for the executive summary.
 5. **Assemble** — the Markdown document + `papers.json` / `distilled.json` provenance sidecars.
 
-Every model turn is short and uses a fresh session key by design — this keeps each call under
-the local server's context budget and sidesteps a known CLI-compaction failure mode on long,
-many-tool-call agent turns.
+**Thinking must be disabled.** Qwen3.6 is a reasoning model; left on, its chain-of-thought
+leaks into the output ("The user wants me to…"). The generator calls the vLLM OpenAI endpoint
+directly with `chat_template_kwargs: {enable_thinking: false}`, which suppresses it cleanly —
+more reliable here than routing through the agent wrapper, and still 100% on-device.
 
 ### Reproduce
 
 ```bash
-# on the OpenClaw LXC (needs the vLLM server up and `openclaw` configured)
-mkdir -p ~/inference-research && cp generator/*.py ~/inference-research/
-cd ~/inference-research && python3 run.py        # writes inference-major-discoveries.md
+# anywhere that can reach the GX10 vLLM endpoint (defaults to http://172.27.27.210:8000)
+VLLM_URL=http://172.27.27.210:8000/v1/chat/completions MODEL=qwen36-moe \
+  OUT_DIR=. python3 generator/build_digest.py     # writes inference-major-discoveries.md
 ```
 
 ## Caveats (read before citing)
