@@ -1,0 +1,13 @@
+# Secrets & host-specific config
+.env
+
+# Rendered from prometheus/prometheus.yml.tmpl by scripts/render-prometheus.sh
+prometheus/prometheus.yml
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor/OS cruft
+.DS_Store
+*.swp

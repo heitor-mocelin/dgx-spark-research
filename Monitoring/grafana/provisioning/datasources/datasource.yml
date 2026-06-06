@@ -1,0 +1,15 @@
+# Auto-provisions the Prometheus datasource. The dashboard's $datasource variable
+# defaults to the default datasource, so this is all that's needed.
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    uid: prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    jsonData:
+      timeInterval: 10s
+      httpMethod: POST
+    editable: true

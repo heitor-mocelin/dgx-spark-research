@@ -1,0 +1,48 @@
+# Monitoring stack: Prometheus + Grafana.
+# Run this on ANY host that can reach the DGX Spark (a Proxmox LXC, a NUC, the DGX itself…).
+# The DGX exporters live in dgx/docker-compose.yml and run ON the DGX.
+#
+#   cp .env.example .env && edit .env
+#   ./scripts/setup.sh          # renders prometheus.yml from .env, then `docker compose up -d`
+#
+# Grafana:    http://<this-host>:3000   (admin / $GRAFANA_ADMIN_PASSWORD)
+# Prometheus: http://<this-host>:9090
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: dgx-prometheus
+    restart: unless-stopped
+    user: "nobody"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=15d"
+      - "--web.enable-lifecycle"            # allows `curl -X POST .../-/reload`
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: dgx-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: "${GRAFANA_ADMIN_USER:-admin}"
+      GF_SECURITY_ADMIN_PASSWORD: "${GRAFANA_ADMIN_PASSWORD:-admin}"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_DASHBOARDS_MIN_REFRESH_INTERVAL: "5s"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}

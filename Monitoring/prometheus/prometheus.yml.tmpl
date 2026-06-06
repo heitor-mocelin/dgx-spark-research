@@ -1,0 +1,53 @@
+# Prometheus scrape config TEMPLATE.
+# Rendered to prometheus/prometheus.yml by scripts/render-prometheus.sh (envsubst from .env).
+# Every job pins instance="${DGX_NAME}" so a single Grafana $instance variable drives all panels.
+#
+# Ports (match dgx/docker-compose.yml + your inference servers):
+#   9100 node_exporter | 9400 dcgm-exporter | 8080 cAdvisor
+#   8000 vLLM | 8090 llama-server --metrics | 9778 ollama exporter (optional)
+
+global:
+  scrape_interval: 10s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: dgx-spark
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: node
+    static_configs:
+      - targets: ["${DGX_HOST}:9100"]
+        labels: { instance: "${DGX_NAME}" }
+
+  - job_name: dcgm
+    scrape_interval: 5s
+    static_configs:
+      - targets: ["${DGX_HOST}:9400"]
+        labels: { instance: "${DGX_NAME}" }
+
+  - job_name: cadvisor
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["${DGX_HOST}:8080"]
+        labels: { instance: "${DGX_NAME}" }
+
+  - job_name: vllm
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["${DGX_HOST}:8000"]
+        labels: { instance: "${DGX_NAME}" }
+
+  - job_name: llamacpp
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["${DGX_HOST}:8090"]
+        labels: { instance: "${DGX_NAME}" }
+
+  # Optional — only if you run an ollama Prometheus exporter.
+  - job_name: ollama
+    static_configs:
+      - targets: ["${DGX_HOST}:9778"]
+        labels: { instance: "${DGX_NAME}" }
