@@ -24,7 +24,7 @@ within ~1–3 pts of the 31B dense ([g08](../sources/g08-run-locally-ollama-llam
 
 ```bash
 # runtime-agnostic OpenAI-API client (from the Qwen subproject); point URL/MODEL at your Gemma endpoint
-python3 ../../AsusGx10-vllm-optimization/benchmarks/benchmark_sweep.py
+python3 ../../vllm-qwen3.6-35b-a3b/benchmarks/benchmark_sweep.py
 ```
 
 Drop measured JSON/tables here as you collect them.

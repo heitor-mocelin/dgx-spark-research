@@ -21,7 +21,7 @@ On a bandwidth-bound box, **active parameters and bytes-per-weight decide local 
    memory for long-context KV cache.
 3. **Serve it on vLLM** for throughput, reliable tool-calling, and full multimodal.
 
-It's the same lesson as the [Qwen3.6 subproject](../../AsusGx10-vllm-optimization/) — Gemma 4
+It's the same lesson as the [Qwen3.6 subproject](../../vllm-qwen3.6-35b-a3b/) — Gemma 4
 26B-A4B is its close analog, down to the shared `sm_121` Marlin-vs-native FP4 question.
 
 ## Honesty notes

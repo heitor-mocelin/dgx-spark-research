@@ -6,7 +6,7 @@
 | [`quickstart-ollama.sh`](quickstart-ollama.sh) | Fastest path anywhere — `ollama pull/run gemma4:26b-moe`. |
 
 **Benchmarking** reuses the runtime-agnostic OpenAI-API client from the sibling subproject —
-[`../../AsusGx10-vllm-optimization/benchmarks/benchmark_sweep.py`](../../AsusGx10-vllm-optimization/benchmarks/benchmark_sweep.py)
+[`../../vllm-qwen3.6-35b-a3b/benchmarks/benchmark_sweep.py`](../../vllm-qwen3.6-35b-a3b/benchmarks/benchmark_sweep.py)
 (point its `URL`/`MODEL` at your Gemma 4 endpoint).
 
 ## Notes & caveats

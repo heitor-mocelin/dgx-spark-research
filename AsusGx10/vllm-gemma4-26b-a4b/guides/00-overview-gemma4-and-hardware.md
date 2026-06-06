@@ -61,7 +61,7 @@ The GB10 has **128 GB unified memory at 273 GB/s** — generous capacity, modest
   comfortably; it's just slow. The whole game is *fewer active bytes per token* (MoE) + *fewer
   bytes per weight* (quantization, guide `03`).
 - This is the **same lesson** as the Qwen3.6-35B-A3B work in the
-  [sibling subproject](../../AsusGx10-vllm-optimization/) — Gemma 4 26B-A4B is its close analog,
+  [sibling subproject](../../vllm-qwen3.6-35b-a3b/) — Gemma 4 26B-A4B is its close analog,
   and the measured Qwen baseline (~627 tok/s aggregate, ~75 single-stream) is a useful yardstick.
 
 ## Quality — it's not a toy

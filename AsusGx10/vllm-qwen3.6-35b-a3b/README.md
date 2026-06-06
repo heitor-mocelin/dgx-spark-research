@@ -1,4 +1,4 @@
-# AsusGx10-vllm-optimization
+# vllm-qwen3.6-35b-a3b
 
 Optimizing **vLLM** serving of **Qwen3-class MoE models** on an **ASUS Ascent GX10**
 (NVIDIA **GB10 Grace Blackwell**, 128 GB LPDDR5, DGX OS / Ubuntu ARM64) — from a bare
@@ -38,4 +38,4 @@ presented as fact.
 
 ## License
 
-[MIT](../LICENSE) © 2026 Heitor Mocelin
+[MIT](../../LICENSE) © 2026 Heitor Mocelin

@@ -62,7 +62,7 @@ fixes** that had been broken since March [[g09]](../sources/g09-ai-muninn-dgxspa
 
 On the GB10, **Marlin decompresses the FP4 weights to BF16 at runtime — correct, but slower than the
 native W4A4 FP4 path** [[g09]](../sources/g09-ai-muninn-dgxspark-nvfp4-52.md). That's the *same* `FLASHINFER_CUTLASS`/`sm_121` gap documented in the
-[Qwen subproject's guide 02](../../AsusGx10-vllm-optimization/guides/02-quantization-nvfp4-and-fp8.md):
+[Qwen subproject's guide 02](../../vllm-qwen3.6-35b-a3b/guides/02-quantization-nvfp4-and-fp8.md):
 the FP4 MoE kernels lacked SM120/121 coverage, so vLLM falls back. vLLM 0.19's day-one SM121 fixes
 got NVFP4 *working* on the GB10; whether it's the *fast* native path or Marlin depends on your build
 — track the FlashInfer b12x kernels (vLLM PR #40082) and re-measure (guide `05`). The 52 tok/s figure

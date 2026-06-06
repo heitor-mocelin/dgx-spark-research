@@ -9,10 +9,17 @@ sources and real measurements on the author's hardware.
 
 ## Subprojects
 
-- **[AsusGx10-vllm-optimization/](AsusGx10-vllm-optimization/)** — Optimizing
-  [vLLM](https://docs.vllm.ai/) serving Qwen3-class MoE models (NVFP4 / FP8) on an
-  **ASUS Ascent GX10** (GB10 Grace Blackwell, 128 GB LPDDR5). Throughput, quantization,
-  latency, and tool-calling — from bare device to a tuned OpenAI-compatible endpoint.
+Grouped by **device**. The first (and currently only) device is the ASUS Ascent GX10:
+
+- **[AsusGx10/](AsusGx10/)** — NVIDIA **GB10 Grace Blackwell**, 128 GB unified LPDDR5x @ 273 GB/s.
+  - **[vllm-qwen3.6-35b-a3b/](AsusGx10/vllm-qwen3.6-35b-a3b/)** — optimizing
+    [vLLM](https://docs.vllm.ai/) serving of Qwen3.6-35B-A3B (NVFP4 / FP8): throughput,
+    quantization, latency, tool-calling — bare device → tuned endpoint, with measured benchmarks.
+  - **[vllm-gemma4-26b-a4b/](AsusGx10/vllm-gemma4-26b-a4b/)** — running **Google Gemma 4** locally
+    (vLLM / Ollama / llama.cpp): variants & architecture, the 26B-A4B NVFP4 recipe (~52 tok/s),
+    quantization, multimodal / thinking / tool-calling.
+  - **[research-digests/](AsusGx10/research-digests/)** — auto-generated, on-device literature
+    digests built by the local model (e.g. major discoveries in efficient LLM inference).
 
 ## Conventions
 

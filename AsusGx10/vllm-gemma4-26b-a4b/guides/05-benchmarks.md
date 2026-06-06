@@ -20,7 +20,7 @@ NVIDIA's own day-1 DGX Spark preliminary benchmarks add more datapoints across t
 **The headline:** on this hardware, **26B-A4B NVFP4 is ~8× faster than the 31B dense** for
 comparable quality — the MoE is the only sensible choice for interactive local use. For reference,
 the sibling Qwen3.6-35B-A3B (also MoE, ~3B active) measured **~75 tok/s single-stream / ~627 tok/s
-aggregate @ c32** on the same box ([Qwen benchmarks](../../AsusGx10-vllm-optimization/benchmarks/README.md))
+aggregate @ c32** on the same box ([Qwen benchmarks](../../vllm-qwen3.6-35b-a3b/benchmarks/README.md))
 — Gemma 4's 26B-A4B should land in a similar regime, modulo the Marlin caveat below.
 
 ## Quality
@@ -39,7 +39,7 @@ story in one row.** (Numbers are *with* thinking mode — guide `04`.)
 
 The 52 tok/s is measured **with the Marlin fallback** (FP4→BF16 decompress at runtime), because the
 GB10's `sm_121` native FP4 path wasn't fully engaged [[g09]](../sources/g09-ai-muninn-dgxspark-nvfp4-52.md) — the same gap as the
-[Qwen subproject](../../AsusGx10-vllm-optimization/guides/02-quantization-nvfp4-and-fp8.md). So there is
+[Qwen subproject](../../vllm-qwen3.6-35b-a3b/guides/02-quantization-nvfp4-and-fp8.md). So there is
 likely **headroom above 52 tok/s** once the native FP4-MoE kernels (FlashInfer b12x, vLLM PR #40082)
 land for SM121. That delta is the single most valuable thing to measure.
 
@@ -51,7 +51,7 @@ it works against any Gemma 4 vLLM/Ollama/llama.cpp server:
 ```bash
 # point it at your Gemma 4 endpoint + served model name
 #   (edit URL/MODEL at the top of the script, or parameterize)
-python3 ../../AsusGx10-vllm-optimization/benchmarks/benchmark_sweep.py
+python3 ../../vllm-qwen3.6-35b-a3b/benchmarks/benchmark_sweep.py
 ```
 
 It reports the throughput-vs-latency curve (single-stream → saturation), which is exactly how to find

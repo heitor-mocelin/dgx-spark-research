@@ -1,8 +1,8 @@
-# Gemma4-local-inference
+# vllm-gemma4-26b-a4b
 
 Running **Google Gemma 4** locally — with the **ASUS Ascent GX10 / NVIDIA GB10** as the
 reference device — across vLLM, Ollama, and llama.cpp. Same method as the
-[Qwen3.6 subproject](../AsusGx10-vllm-optimization/): a cited corpus, layered guides
+[Qwen3.6 subproject](../vllm-qwen3.6-35b-a3b/): a cited corpus, layered guides
 (newcomer on-ramp → advanced deep-dive), and reproducible scripts.
 
 > **Status:** draft. 14-source cited corpus complete; guides + scripts in progress.
@@ -42,4 +42,4 @@ to run locally here — directly analogous to Qwen3.6-35B-A3B.
 
 ## License
 
-[MIT](../LICENSE) © 2026 Heitor Mocelin
+[MIT](../../LICENSE) © 2026 Heitor Mocelin
