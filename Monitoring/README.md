@@ -31,10 +31,12 @@ Built to be **portable** (template variables, no hardcoded IPs) and **honest** (
 
 ## What you get
 
-- **One dashboard, six areas:** Overview & Health · GPU (DCGM) · Grace CPU & Unified Memory · vLLM · llama.cpp · ollama · Storage & Network.
-- **GPU telemetry** from `dcgm-exporter`: SM/mem-copy utilisation, power & energy, SM/mem clocks, GPU & memory temperature, framebuffer (VRAM where reported), XID errors and throttle violations.
-- **LLM performance** that actually matters: aggregate tok/s (generation + prefill), concurrent/queued requests, **KV-cache utilisation**, TTFT & end-to-end latency percentiles, prefix-cache hit rate, and **the loaded model + its memory**.
+- **One dashboard, twelve areas, ~85 panels:** Overview · GPU Compute/Activity · GPU Memory/Power/Thermal · GPU Interconnect/Reliability · Grace CPU · Unified Memory · vLLM · vLLM Efficiency · llama.cpp · ollama · Storage · Network.
+- **Deep GPU telemetry** from `dcgm-exporter`: SM/Tensor/FP pipe activity, SM occupancy, mem-copy, power vs power-limit, energy, clocks, GPU & memory temperature, framebuffer (VRAM), PCIe/NVLink throughput, XID errors, PCIe replays and throttle violations.
+- **LLM performance** that actually matters: aggregate tok/s (generation + prefill), **tokens-per-Watt efficiency**, concurrent/queued requests, **KV-cache utilisation**, **scheduler preemptions**, prefix- & prompt-cache efficiency, TTFT & E2E latency percentiles, request shape, and **the loaded model + its memory**.
+- **Deep host telemetry:** per-core CPU + frequency, **CPU/memory pressure (PSI)**, context-switches, swap, OOM kills, disk IOPS/latency/inodes, TCP connections & retransmits.
 - **Offline-aware tiles:** a per-engine 🟢/🔴 status, and KPI tiles that print a friendly message when their exporter is genuinely down — without false alarms on transient scrape gaps.
+- **Threshold lines & annotations:** danger-zone markers (temp/KV/disk) and restart/outage annotations on every graph.
 - **Reproducible & scriptable:** `docker compose up` for the stack, a one-liner for the DGX exporters, everything templated from a single `.env`.
 
 ## Architecture
@@ -151,13 +153,22 @@ For the `$instance` values to appear, your Prometheus must expose a consistent `
 
 ## Dashboard tour
 
-- **📊 Overview & Health** — per-exporter 🟢/🔴 status, plus headline GPU util/temp/power, unified-memory %, CPU % and vLLM tok/s.
-- **🎮 GPU — NVIDIA Blackwell (DCGM)** — utilisation & mem-copy, power & energy rate, clocks, GPU/memory temps, framebuffer (VRAM), and an errors/throttling panel (XID, PCIe replay, power/thermal violations).
-- **🧠 Grace CPU & Unified Memory** — CPU by mode, load average, the 128 GB unified pool (used/cache/free) and a memory-pressure gauge.
-- **🚀 vLLM** — server status, served model, KV-cache gauge, prefix-cache hit, process RAM; throughput, concurrency, TTFT and E2E latency percentiles, process CPU/RAM.
-- **🦙 llama.cpp** — server status, KV-cache, requests processing/deferred; throughput (generation + prefill).
+Twelve sections, ~85 panels:
+
+- **📊 Overview & Health** — per-exporter 🟢/🔴 status plus two KPI rows: GPU util/temp/power, unified-mem %, CPU, uptime, vLLM tok/s, **tokens-per-Watt**, KV-cache, queue, llama.cpp tok/s, load.
+- **🎮 GPU — Compute & Activity (DCGM)** — utilisation & mem-copy, **engine activity** (graphics/SM-active/SM-occupancy), **pipe activity** (Tensor/FP16/FP32/FP64), DRAM-active, encoder/decoder. *(profiling fields)*
+- **🔋 GPU — Memory, Power & Thermal** — framebuffer/VRAM, power vs **power-limit**, energy rate, GPU/mem temps, SM/mem clocks, and **power efficiency (tokens/Watt)**.
+- **🔌 GPU — Interconnect & Reliability** *(collapsed)* — PCIe & NVLink throughput, XID errors, PCIe replays, **throttle violations** (power/thermal/board/reliability).
+- **🧠 Grace CPU** — utilisation by mode, **per-core utilisation**, CPU frequency, load, context-switches/interrupts, processes, **CPU pressure (PSI)**.
+- **💠 Unified Memory** — pool used/cache/free, **pressure gauge**, swap, memory breakdown (slab/page-tables/dirty/mapped/anon), **memory PSI + OOM kills**.
+- **🚀 vLLM** — status, served model, KV-cache gauge & graph, prefix-cache hit, process RAM; throughput, concurrency, TTFT & E2E latency percentiles.
+- **⚡ vLLM — Efficiency & Scheduler Health** — **tokens/Watt**, request success rate, **preemptions** (KV pressure), prompt-cache efficiency, avg batch size, avg request shape.
+- **🦙 llama.cpp** *(collapsed)* — status, KV-cache (% + tokens), requests processing/deferred, throughput, busy-slots-per-decode.
 - **🤖 ollama** *(collapsed)* — status, models loaded, per-model RAM.
-- **💾 Storage & 🌐 Network** *(collapsed)* — NVMe I/O, filesystem usage, network throughput and errors.
+- **💾 Storage** *(collapsed)* — throughput, **IOPS**, **disk busy % + await latency**, filesystem & **inode** usage, NVMe temperature.
+- **🌐 Network** *(collapsed)* — throughput, packets/s, **TCP established + retransmits**, errors & drops.
+
+Threshold lines mark danger zones (temp 85 °C, KV-cache 95 %, disk 90 %), and an annotation marks engine restarts/outages on every graph.
 
 ## How the offline-aware tiles work
 
