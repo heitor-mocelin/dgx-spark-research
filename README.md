@@ -7,6 +7,25 @@ Each subproject is self-contained: a cited research corpus, layered guides (newc
 on-ramp → advanced deep-dive), and reproducible scripts, grounded in both published
 sources and real measurements on the author's hardware.
 
+## 🔬 Key discoveries (measured on the GX10)
+
+We predicted an NVFP4 decode ceiling for each model from first principles, then benchmarked the real
+device. Full synthesis: **[AsusGx10/FINDINGS.md](AsusGx10/FINDINGS.md)**.
+
+![Predicted vs measured + efficiency vs active params](AsusGx10/assets/roofline-measured-gx10.png)
+
+- **The roofline predicts *order* perfectly** — single-stream speed tracks *active* parameters (70B-dense
+  ≈ 5 tok/s → 3B-MoE ≈ 75 tok/s). **MoE is the only sensible choice for local interactive use.**
+- **Efficiency is *not* constant** (our pre-registered hypothesis, refuted): it rises **42% → 98%** with
+  active params, because a big weight-read dwarfs the fixed per-token overhead. The roofline is tight for
+  big/dense models, a loose ×0.5 upper bound for small-active MoEs.
+- **Aggregate is power-capped, not bandwidth-capped** — every model pegs 96% GPU-util at 44–71 W.
+- **The Marlin FP4 fallback is visible compute** (89–96% GPU-util even single-stream) — so a native
+  `sm_121` FP4 kernel should recover real throughput.
+
+Methodology: [AsusGx10/testing-plan.md](AsusGx10/testing-plan.md) · numbers + reproduction:
+[AsusGx10/benchmarks/](AsusGx10/benchmarks/README.md).
+
 ## Subprojects
 
 Grouped by **device**. The first (and currently only) device is the ASUS Ascent GX10:

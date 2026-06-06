@@ -1,9 +1,12 @@
 # 05 · Benchmarks — what Gemma 4 actually does locally
 
-> Published GB10 numbers, how to read them, and how to reproduce them on your own endpoint. (We
-> didn't run these on this GX10 — it currently serves Qwen3.6, and deploying Gemma 4 needs docker
-> access there — so these are cited measurements; reproduce them with the client below once you
-> stand Gemma 4 up.)
+> Published GB10 numbers plus **our own measurements** (2026-06-06).
+>
+> 🔬 **We measured Gemma-4-31B on this GX10:** **6.8 tok/s** single-stream — but at only **54% of its
+> roofline**, vs **91%** for the same-size Qwen3-32B, making Gemma-4-31B a measured **efficiency
+> outlier** (hybrid attention + PLE costing it on `sm_121`). The **26B-A4B NVFP4 community checkpoint
+> failed to deploy** on our vLLM nightly (patch/version mismatch), so its figures below remain cited.
+> Full cross-model context: **[FINDINGS](../../FINDINGS.md)** · **[benchmarks](../../benchmarks/README.md)**.
 
 ## Speed on the GB10 (DGX Spark)
 

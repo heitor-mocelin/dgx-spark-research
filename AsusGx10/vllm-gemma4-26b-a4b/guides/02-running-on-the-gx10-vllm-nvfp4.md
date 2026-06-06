@@ -24,6 +24,13 @@ It's bandwidth. A dense model reads **all** its weights per token; on the GB10's
 proportional [[g09]](../sources/g09-ai-muninn-dgxspark-nvfp4-52.md). Measured: 31B NVFP4 ≈ **6.9 tok/s**, 26B-A4B NVFP4 ≈ **48–52 tok/s** [[g09]](../sources/g09-ai-muninn-dgxspark-nvfp4-52.md).
 The MoE only fires ~3.8B params/token, so it moves ~8× fewer weight-bytes — hence ~7.5× faster.
 
+> 📊 **From our own 7-model matrix ([FINDINGS](../../FINDINGS.md)):** Gemma-4-31B measured **6.8 tok/s**
+> single-stream — confirming the dense wall. But note it ran at only **54% of its roofline**, vs **91%**
+> for the similarly-sized Qwen3-32B — Gemma-4-31B is a measured **efficiency outlier**, its hybrid
+> attention + Per-Layer-Embeddings costing it on the `sm_121` kernels. The MoE is doubly the right call
+> here. ⚠️ The **26B-A4B NVFP4 community checkpoint failed to deploy** on our vLLM nightly (engine init —
+> patch/version mismatch); the 52 tok/s above is from [[g09]](../sources/g09-ai-muninn-dgxspark-nvfp4-52.md), pending a retry with a matched build.
+
 ## The checkpoint situation
 
 NVIDIA's official `nvidia/Gemma-4-31B-IT-NVFP4` exists only for the **dense 31B**. For the MoE,

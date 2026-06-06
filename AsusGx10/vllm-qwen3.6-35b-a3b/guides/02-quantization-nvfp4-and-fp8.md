@@ -73,6 +73,13 @@ bandwidth win; you lose part of the compute win. **Hold that thought.**
 
 ## The `sm_121` / Marlin fallback — your log line, explained
 
+> 📊 **Measured evidence (2026-06-06):** across the [7-model matrix](../../FINDINGS.md), GPU utilization
+> is **89–96% even at single-stream (batch 1)** — *not* the low util a purely bandwidth-bound decode
+> would show. That's Marlin **decompressing FP4→BF16 on-chip every token**: the fallback is *visible
+> compute overhead*, not idle headroom — and it hits small-active MoEs hardest (overhead is a big
+> fraction of their tiny weight-read), so a native FP4-MoE kernel should help them most. See
+> [FINDINGS Discovery 5](../../FINDINGS.md).
+
 Your vLLM logs warn that the GPU lacks native FP4 and falls back to the **Marlin** kernel.
 Here's the full chain, sourced from the vLLM trackers:
 

@@ -3,6 +3,11 @@
 > **The guide that makes the others true.** Every "to measure in Phase 3" flag in this series
 > resolves here. You can't optimize what you don't measure, and on a bandwidth-bound box the
 > only way to know where a knob tips is to sweep it and watch the numbers.
+>
+> 🔬 This methodology was run across **7 NVFP4 models** — see the device-level
+> **[testing plan](../../testing-plan.md)**, **[FINDINGS](../../FINDINGS.md)**, and
+> **[cross-model benchmarks](../../benchmarks/README.md)** for the predict-then-measure results
+> (Qwen3.6 measured **75 tok/s single-stream / 951 peak**, at 58% of its roofline).
 
 ---
 
