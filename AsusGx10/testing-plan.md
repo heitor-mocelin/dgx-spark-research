@@ -79,6 +79,11 @@ Two things jump out, and both are *structural*, not incidental:
 
 ## 3. The central hypothesis: a near-constant efficiency factor
 
+> ⚡ **MEASURED 2026-06-06 — REFUTED.** Across 6 models the factor spans **42%→98%**, *rising with
+> active-parameter count* rather than holding constant. Full results + the replacement finding:
+> **[benchmarks/](benchmarks/README.md)**. The hypothesis below is preserved as the pre-registered
+> prediction it was.
+
 ### The observation
 | Model | Realistic ceiling | Measured | Measured ÷ realistic |
 |---|---:|---:|---:|

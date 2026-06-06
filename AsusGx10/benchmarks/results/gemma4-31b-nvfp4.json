@@ -1,0 +1,118 @@
+{
+ "model": "gemma-4-31b",
+ "label": "gemma4-31b-nvfp4",
+ "reps": 3,
+ "single_stream": {
+  "tok_s": 6.8,
+  "tok_s_std": 0.07,
+  "ttft_ms": 159.9,
+  "itl_ms": 146.6,
+  "telemetry": {
+   "gpu_util_avg": 93.5,
+   "gpu_util_max": 96.0,
+   "mem_bw_util_avg": 0.0,
+   "mem_bw_util_max": 0.0,
+   "power_w_avg": 39.2,
+   "power_w_max": 41.1
+  }
+ },
+ "concurrency": [
+  {
+   "c": 1,
+   "agg_tok_s_mean": 6.8,
+   "agg_tok_s_std": 0.0,
+   "agg_tok_s_runs": [
+    6.8,
+    6.8,
+    6.8
+   ],
+   "ttft_p50_ms": 162.0
+  },
+  {
+   "c": 4,
+   "agg_tok_s_mean": 27.2,
+   "agg_tok_s_std": 0.1,
+   "agg_tok_s_runs": [
+    27.2,
+    27.3,
+    27.1
+   ],
+   "ttft_p50_ms": 297.6
+  },
+  {
+   "c": 8,
+   "agg_tok_s_mean": 53.5,
+   "agg_tok_s_std": 0.0,
+   "agg_tok_s_runs": [
+    53.5,
+    53.5,
+    53.5
+   ],
+   "ttft_p50_ms": 328.5
+  },
+  {
+   "c": 16,
+   "agg_tok_s_mean": 105.4,
+   "agg_tok_s_std": 0.0,
+   "agg_tok_s_runs": [
+    105.4,
+    105.4,
+    105.4
+   ],
+   "ttft_p50_ms": 356.2
+  },
+  {
+   "c": 32,
+   "agg_tok_s_mean": 200.2,
+   "agg_tok_s_std": 0.3,
+   "agg_tok_s_runs": [
+    200.0,
+    200.0,
+    200.7
+   ],
+   "ttft_p50_ms": 495.9
+  },
+  {
+   "c": 64,
+   "agg_tok_s_mean": 285.6,
+   "agg_tok_s_std": 0.1,
+   "agg_tok_s_runs": [
+    285.5,
+    285.8,
+    285.5
+   ],
+   "ttft_p50_ms": 595.5
+  },
+  {
+   "c": 96,
+   "agg_tok_s_mean": 512.9,
+   "agg_tok_s_std": 0.4,
+   "agg_tok_s_runs": [
+    512.6,
+    512.7,
+    513.4
+   ],
+   "ttft_p50_ms": 753.4
+  },
+  {
+   "c": 128,
+   "agg_tok_s_mean": 513.4,
+   "agg_tok_s_std": 0.2,
+   "agg_tok_s_runs": [
+    513.2,
+    513.7,
+    513.2
+   ],
+   "ttft_p50_ms": 703.7
+  }
+ ],
+ "peak_tok_s": 513.4,
+ "saturated_telemetry": {
+  "gpu_util_avg": 94.4,
+  "gpu_util_max": 96.0,
+  "mem_bw_util_avg": 0.0,
+  "mem_bw_util_max": 0.0,
+  "power_w_avg": 43.1,
+  "power_w_max": 61.1
+ }
+}
