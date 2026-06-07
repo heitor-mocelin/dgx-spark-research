@@ -1,0 +1,54 @@
+{
+  "label": "llama31-8b",
+  "model": "llama31-8b",
+  "base": "http://localhost:8001",
+  "ts": 1780811311,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": {
+    "ok": true,
+    "text": "OK",
+    "ctoks": 2
+  },
+  "ttft_ms": {
+    "mean": 39.3,
+    "stdev": 8.2,
+    "runs": [
+      50.9,
+      33.5,
+      33.5
+    ]
+  },
+  "decode_tps": {
+    "mean": 41.7,
+    "stdev": 0.1,
+    "runs": [
+      41.8,
+      41.7,
+      41.6
+    ]
+  },
+  "concurrency": {
+    "1": {
+      "agg_tps": 41.3,
+      "tot_tokens": 256,
+      "wall_s": 6.19
+    },
+    "4": {
+      "agg_tps": 171.2,
+      "tot_tokens": 1024,
+      "wall_s": 5.98
+    },
+    "16": {
+      "agg_tps": 657.6,
+      "tot_tokens": 4096,
+      "wall_s": 6.23
+    },
+    "32": {
+      "agg_tps": 1204.4,
+      "tot_tokens": 8192,
+      "wall_s": 6.8
+    }
+  }
+}

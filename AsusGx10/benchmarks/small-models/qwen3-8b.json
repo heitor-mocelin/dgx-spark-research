@@ -1,0 +1,58 @@
+{
+  "label": "qwen3-8b",
+  "model": "qwen3-8b",
+  "base": "http://localhost:8001",
+  "ts": 1780811418,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    }
+  },
+  "smoke": {
+    "ok": true,
+    "text": "OK",
+    "ctoks": 2
+  },
+  "ttft_ms": {
+    "mean": 51.8,
+    "stdev": 0.2,
+    "runs": [
+      51.5,
+      52.0,
+      51.9
+    ]
+  },
+  "decode_tps": {
+    "mean": 39.6,
+    "stdev": 0.0,
+    "runs": [
+      39.6,
+      39.6,
+      39.6
+    ]
+  },
+  "concurrency": {
+    "1": {
+      "agg_tps": 39.4,
+      "tot_tokens": 256,
+      "wall_s": 6.5
+    },
+    "4": {
+      "agg_tps": 166.3,
+      "tot_tokens": 1024,
+      "wall_s": 6.16
+    },
+    "16": {
+      "agg_tps": 634.3,
+      "tot_tokens": 4096,
+      "wall_s": 6.46
+    },
+    "32": {
+      "agg_tps": 1174.3,
+      "tot_tokens": 8192,
+      "wall_s": 6.98
+    }
+  }
+}

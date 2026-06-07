@@ -1,0 +1,54 @@
+{
+  "label": "phi4-mini",
+  "model": "phi4-mini",
+  "base": "http://localhost:8001",
+  "ts": 1780813301,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": {
+    "ok": true,
+    "text": "OK",
+    "ctoks": 2
+  },
+  "ttft_ms": {
+    "mean": 76.0,
+    "stdev": 0.2,
+    "runs": [
+      75.7,
+      76.2,
+      76.1
+    ]
+  },
+  "decode_tps": {
+    "mean": 24.7,
+    "stdev": 0.0,
+    "runs": [
+      24.7,
+      24.7,
+      24.8
+    ]
+  },
+  "concurrency": {
+    "1": {
+      "agg_tps": 24.6,
+      "tot_tokens": 256,
+      "wall_s": 10.4
+    },
+    "4": {
+      "agg_tps": 118.8,
+      "tot_tokens": 1024,
+      "wall_s": 8.62
+    },
+    "16": {
+      "agg_tps": 445.3,
+      "tot_tokens": 4096,
+      "wall_s": 9.2
+    },
+    "32": {
+      "agg_tps": 805.2,
+      "tot_tokens": 8192,
+      "wall_s": 10.17
+    }
+  }
+}

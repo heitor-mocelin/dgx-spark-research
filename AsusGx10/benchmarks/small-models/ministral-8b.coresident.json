@@ -1,0 +1,54 @@
+{
+  "label": "ministral-8b",
+  "model": "ministral-8b",
+  "base": "http://localhost:8001",
+  "ts": 1780813474,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": {
+    "ok": true,
+    "text": "OK",
+    "ctoks": 2
+  },
+  "ttft_ms": {
+    "mean": 136.6,
+    "stdev": 0.4,
+    "runs": [
+      136.3,
+      137.2,
+      136.4
+    ]
+  },
+  "decode_tps": {
+    "mean": 14.6,
+    "stdev": 0.0,
+    "runs": [
+      14.6,
+      14.6,
+      14.6
+    ]
+  },
+  "concurrency": {
+    "1": {
+      "agg_tps": 14.5,
+      "tot_tokens": 256,
+      "wall_s": 17.65
+    },
+    "4": {
+      "agg_tps": 60.5,
+      "tot_tokens": 1024,
+      "wall_s": 16.94
+    },
+    "16": {
+      "agg_tps": 232.7,
+      "tot_tokens": 4096,
+      "wall_s": 17.6
+    },
+    "32": {
+      "agg_tps": 416.0,
+      "tot_tokens": 8192,
+      "wall_s": 19.69
+    }
+  }
+}

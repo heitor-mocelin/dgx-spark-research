@@ -1,0 +1,54 @@
+{
+  "label": "qwen3-4b-underload",
+  "model": "qwen3-4b",
+  "base": "http://localhost:8001",
+  "ts": 1780812970,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": {
+    "ok": true,
+    "text": "OK",
+    "ctoks": 2
+  },
+  "ttft_ms": {
+    "mean": 67.4,
+    "stdev": 3.0,
+    "runs": [
+      63.4,
+      70.5,
+      68.4
+    ]
+  },
+  "decode_tps": {
+    "mean": 31.5,
+    "stdev": 0.4,
+    "runs": [
+      32.0,
+      31.3,
+      31.2
+    ]
+  },
+  "concurrency": {
+    "1": {
+      "agg_tps": 31.0,
+      "tot_tokens": 256,
+      "wall_s": 8.27
+    },
+    "4": {
+      "agg_tps": 131.3,
+      "tot_tokens": 1024,
+      "wall_s": 7.8
+    },
+    "16": {
+      "agg_tps": 456.3,
+      "tot_tokens": 4096,
+      "wall_s": 8.98
+    },
+    "32": {
+      "agg_tps": 807.0,
+      "tot_tokens": 8192,
+      "wall_s": 10.15
+    }
+  }
+}

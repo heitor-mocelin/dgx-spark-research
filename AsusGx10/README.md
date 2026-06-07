@@ -37,6 +37,9 @@ then amortize the weight read across requests (batching).
 > which model / runtime / quantization to pick, and the gotchas.
 > ⚡ **Just want it running?** → **[`bootstrap/`](bootstrap/README.md)** — one command, bare device →
 > serving endpoint (env-adaptive, fully logged). Then dive into the study below.
+> ⚡ **Want a fast "reflex" model next to Qwen?** → **[Small-models study](FINDINGS-small-models.md)** —
+> 7 small quantized IT models benchmarked (TTFT + decode + co-residency). Winner: **Qwen3-4B (NVFP4),
+> 64 tok/s / 32 ms**. ([plan](testing-plan-small-models.md) · [digests](research-digests/small-models/README.md))
 
 ## 🔬 The test program — predict, measure, learn
 

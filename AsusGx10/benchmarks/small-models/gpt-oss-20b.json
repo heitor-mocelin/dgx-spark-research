@@ -1,0 +1,10 @@
+{
+  "label": "gpt-oss-20b",
+  "model": "gpt-oss-20b",
+  "format": "MXFP4 (native)",
+  "blocked": true,
+  "blocked_phase": "engine_init / tokenizer",
+  "blocked_reason": "MXFP4 weights loaded under VLLM_MXFP4_BACKEND=marlin, but engine init aborts in OpenAIServingResponses -> get_stop_tokens_for_assistant_actions: openai_harmony.HarmonyError 'error downloading or loading vocab file'. The Azure blob (o200k_base.tiktoken) is reachable via curl from the same container (HTTP 200, 3.6MB), so this is the harmony tokenizer loader failing to fetch/cache its vocab at startup in this image, NOT the sm_121 MXFP4 kernel issue (#37030). Marlin MXFP4 backend did load the model weights.",
+  "image": "vllm/vllm-openai:cu130-nightly",
+  "notes": "Default --quantization mxfp4 path failed earlier during load_model; VLLM_MXFP4_BACKEND=marlin got further (weights loaded) and revealed the harmony-vocab init failure as the actual blocker. Would need: a vLLM build/version whose harmony loader caches offline, or a pre-baked harmony vocab the Rust loader honors. Recorded as blocked-in-this-environment per the study's honesty gate."
+}

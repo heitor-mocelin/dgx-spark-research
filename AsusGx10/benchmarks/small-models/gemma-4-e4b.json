@@ -1,0 +1,18 @@
+{
+  "label": "gemma-4-e4b",
+  "model": "gemma-4-e4b",
+  "base": "http://localhost:8001",
+  "ts": 1780810995,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": { "ok": true, "text": "OK", "ctoks": 2 },
+  "ttft_ms": { "mean": 40.1, "stdev": 0.4, "runs": [39.5, 40.4, 40.3] },
+  "decode_tps": { "mean": 53.5, "stdev": 0.0, "runs": [53.5, 53.4, 53.4] },
+  "concurrency": {
+    "1": { "agg_tps": 53.0, "tot_tokens": 256, "wall_s": 4.83 },
+    "4": { "agg_tps": 195.5, "tot_tokens": 1024, "wall_s": 5.24 },
+    "16": { "agg_tps": 723.6, "tot_tokens": 4096, "wall_s": 5.66 },
+    "32": { "agg_tps": 1498.3, "tot_tokens": 8192, "wall_s": 5.47 }
+  }
+}

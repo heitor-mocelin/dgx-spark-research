@@ -1,0 +1,14 @@
+{
+  "label": "phi4-mini-bf16",
+  "model": "phi4-mini",
+  "base": "http://localhost:8001",
+  "ts": 1780811550,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": {
+    "ok": false,
+    "text": "",
+    "ctoks": 2
+  }
+}

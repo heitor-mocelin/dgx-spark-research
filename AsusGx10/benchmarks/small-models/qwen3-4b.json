@@ -1,0 +1,54 @@
+{
+  "label": "qwen3-4b",
+  "model": "qwen3-4b",
+  "base": "http://localhost:8001",
+  "ts": 1780811207,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": {
+    "ok": true,
+    "text": "OK",
+    "ctoks": 2
+  },
+  "ttft_ms": {
+    "mean": 31.9,
+    "stdev": 0.4,
+    "runs": [
+      31.6,
+      31.6,
+      32.4
+    ]
+  },
+  "decode_tps": {
+    "mean": 64.4,
+    "stdev": 0.0,
+    "runs": [
+      64.5,
+      64.4,
+      64.4
+    ]
+  },
+  "concurrency": {
+    "1": {
+      "agg_tps": 63.9,
+      "tot_tokens": 256,
+      "wall_s": 4.0
+    },
+    "4": {
+      "agg_tps": 273.7,
+      "tot_tokens": 1024,
+      "wall_s": 3.74
+    },
+    "16": {
+      "agg_tps": 949.6,
+      "tot_tokens": 4096,
+      "wall_s": 4.31
+    },
+    "32": {
+      "agg_tps": 1680.5,
+      "tot_tokens": 8192,
+      "wall_s": 4.87
+    }
+  }
+}
