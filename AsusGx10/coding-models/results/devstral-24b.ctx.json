@@ -1,0 +1,31 @@
+{
+  "label": "devstral-24b",
+  "model": "devstral-24b",
+  "ts": 1781034768,
+  "context_sweep": {
+    "1024": {
+      "prompt_tokens": 1247,
+      "ttft_ms": 257.5,
+      "decode_tps": 16.2,
+      "completion_tokens": 35
+    },
+    "8192": {
+      "prompt_tokens": 10299,
+      "ttft_ms": 2578.9,
+      "decode_tps": 15.5,
+      "completion_tokens": 35
+    },
+    "32768": {
+      "prompt_tokens": 42259,
+      "ttft_ms": 14630.6,
+      "decode_tps": 13.5,
+      "completion_tokens": 35
+    },
+    "98304": {
+      "prompt_tokens": 129619,
+      "ttft_ms": 92460.3,
+      "decode_tps": 10.3,
+      "completion_tokens": 26
+    }
+  }
+}

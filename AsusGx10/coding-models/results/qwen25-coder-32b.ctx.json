@@ -1,0 +1,25 @@
+{
+  "label": "qwen25-coder-32b",
+  "model": "qwen25-coder-32b",
+  "ts": 1781032958,
+  "context_sweep": {
+    "1024": {
+      "prompt_tokens": 1273,
+      "ttft_ms": 614.6,
+      "decode_tps": 7.2,
+      "completion_tokens": 20
+    },
+    "8192": {
+      "prompt_tokens": 10325,
+      "ttft_ms": 5485.6,
+      "decode_tps": 6.9,
+      "completion_tokens": 20
+    },
+    "24576": {
+      "prompt_tokens": 31335,
+      "ttft_ms": 19016.3,
+      "decode_tps": 6.4,
+      "completion_tokens": 23
+    }
+  }
+}

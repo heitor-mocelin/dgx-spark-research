@@ -1,0 +1,22 @@
+{
+  "label": "codestral-22b",
+  "model": "codestral-22b",
+  "ts": 1781037113,
+  "context_sweep": {
+    "1024": {
+      "prompt_tokens": 1448,
+      "ttft_ms": 515.8,
+      "decode_tps": 10.5,
+      "completion_tokens": 34
+    },
+    "8192": {
+      "prompt_tokens": 11808,
+      "ttft_ms": 4663.8,
+      "decode_tps": 10.0,
+      "completion_tokens": 32
+    },
+    "24576": {
+      "error": "HTTPError: 400 Client Error: Bad Request for url: http://localhost:8001/v1/chat/completions"
+    }
+  }
+}
