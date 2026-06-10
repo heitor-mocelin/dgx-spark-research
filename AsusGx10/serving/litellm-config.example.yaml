@@ -1,0 +1,29 @@
+# LiteLLM model-router: one endpoint, route by model name, load-balance each model across Sparks.
+# Replace spark-1 / spark-2 with your inference hosts (IP or DNS). Served model names are examples.
+# Listing a model_name twice (one per Spark) => LiteLLM load-balances + fails over between them.
+model_list:
+  # ---- generalist (e.g. 35B MoE) on :8000 ----
+  - model_name: qwen36-moe
+    litellm_params: { model: openai/qwen36-moe, api_base: http://spark-1:8000/v1, api_key: sk-noauth }
+  - model_name: qwen36-moe
+    litellm_params: { model: openai/qwen36-moe, api_base: http://spark-2:8000/v1, api_key: sk-noauth }
+  # ---- coder (e.g. 30B MoE) on :8002 ----
+  - model_name: qwen3-coder-30b
+    litellm_params: { model: openai/qwen3-coder-30b, api_base: http://spark-1:8002/v1, api_key: sk-noauth }
+  - model_name: qwen3-coder-30b
+    litellm_params: { model: openai/qwen3-coder-30b, api_base: http://spark-2:8002/v1, api_key: sk-noauth }
+  # ---- auxiliary small model on :8001 ----
+  - model_name: qwen3-4b
+    litellm_params: { model: openai/qwen3-4b, api_base: http://spark-1:8001/v1, api_key: sk-noauth }
+  - model_name: qwen3-4b
+    litellm_params: { model: openai/qwen3-4b, api_base: http://spark-2:8001/v1, api_key: sk-noauth }
+
+litellm_settings:
+  num_retries: 2
+  request_timeout: 600
+  drop_params: true        # tolerate client params a given backend doesn't accept
+
+router_settings:
+  routing_strategy: simple-shuffle   # load-balance the two backends per model
+  allowed_fails: 2
+  cooldown_time: 30                  # park a failing backend 30s; traffic shifts to the other Spark
