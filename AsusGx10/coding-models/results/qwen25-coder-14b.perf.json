@@ -1,0 +1,54 @@
+{
+  "label": "qwen25-coder-14b",
+  "model": "qwen25-coder-14b",
+  "base": "http://localhost:8001",
+  "ts": 1781033352,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": {
+    "ok": true,
+    "text": "OK",
+    "ctoks": 2
+  },
+  "ttft_ms": {
+    "mean": 138.6,
+    "stdev": 0.7,
+    "runs": [
+      138.9,
+      139.3,
+      137.6
+    ]
+  },
+  "decode_tps": {
+    "mean": 14.8,
+    "stdev": 0.0,
+    "runs": [
+      14.8,
+      14.7,
+      14.7
+    ]
+  },
+  "concurrency": {
+    "1": {
+      "agg_tps": 14.6,
+      "tot_tokens": 256,
+      "wall_s": 17.48
+    },
+    "4": {
+      "agg_tps": 59.9,
+      "tot_tokens": 1024,
+      "wall_s": 17.1
+    },
+    "16": {
+      "agg_tps": 231.4,
+      "tot_tokens": 4096,
+      "wall_s": 17.7
+    },
+    "32": {
+      "agg_tps": 443.7,
+      "tot_tokens": 8192,
+      "wall_s": 18.46
+    }
+  }
+}

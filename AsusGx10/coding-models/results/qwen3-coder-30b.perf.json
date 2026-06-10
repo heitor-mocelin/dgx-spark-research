@@ -1,0 +1,54 @@
+{
+  "label": "qwen3-coder-30b",
+  "model": "qwen3-coder-30b",
+  "base": "http://localhost:8001",
+  "ts": 1781029717,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": {
+    "ok": true,
+    "text": "OK",
+    "ctoks": 2
+  },
+  "ttft_ms": {
+    "mean": 46.7,
+    "stdev": 24.0,
+    "runs": [
+      80.6,
+      31.9,
+      27.8
+    ]
+  },
+  "decode_tps": {
+    "mean": 73.5,
+    "stdev": 0.1,
+    "runs": [
+      73.6,
+      73.5,
+      73.4
+    ]
+  },
+  "concurrency": {
+    "1": {
+      "agg_tps": 72.4,
+      "tot_tokens": 256,
+      "wall_s": 3.54
+    },
+    "4": {
+      "agg_tps": 234.3,
+      "tot_tokens": 1024,
+      "wall_s": 4.37
+    },
+    "16": {
+      "agg_tps": 763.0,
+      "tot_tokens": 4096,
+      "wall_s": 5.37
+    },
+    "32": {
+      "agg_tps": 1398.5,
+      "tot_tokens": 8192,
+      "wall_s": 5.86
+    }
+  }
+}

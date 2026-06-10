@@ -1,0 +1,54 @@
+{
+  "label": "deepseek-coder-v2-lite",
+  "model": "deepseek-coder-v2-lite",
+  "base": "http://localhost:8001",
+  "ts": 1781036384,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": {
+    "ok": true,
+    "text": "OK",
+    "ctoks": 2
+  },
+  "ttft_ms": {
+    "mean": 85.7,
+    "stdev": 33.8,
+    "runs": [
+      133.4,
+      62.4,
+      61.1
+    ]
+  },
+  "decode_tps": {
+    "mean": 70.5,
+    "stdev": 0.0,
+    "runs": [
+      70.6,
+      70.5,
+      70.5
+    ]
+  },
+  "concurrency": {
+    "1": {
+      "agg_tps": 69.3,
+      "tot_tokens": 256,
+      "wall_s": 3.69
+    },
+    "4": {
+      "agg_tps": 155.8,
+      "tot_tokens": 1024,
+      "wall_s": 6.57
+    },
+    "16": {
+      "agg_tps": 441.8,
+      "tot_tokens": 4096,
+      "wall_s": 9.27
+    },
+    "32": {
+      "agg_tps": 644.9,
+      "tot_tokens": 8192,
+      "wall_s": 12.7
+    }
+  }
+}

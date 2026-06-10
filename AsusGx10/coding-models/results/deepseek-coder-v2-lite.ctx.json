@@ -1,0 +1,28 @@
+{
+  "label": "deepseek-coder-v2-lite",
+  "model": "deepseek-coder-v2-lite",
+  "ts": 1781036578,
+  "context_sweep": {
+    "1024": {
+      "prompt_tokens": 1351,
+      "ttft_ms": 187.7,
+      "decode_tps": 71.4,
+      "completion_tokens": 24
+    },
+    "8192": {
+      "prompt_tokens": 11057,
+      "ttft_ms": 1352.4,
+      "decode_tps": 66.2,
+      "completion_tokens": 24
+    },
+    "32768": {
+      "prompt_tokens": 45231,
+      "ttft_ms": 9575.3,
+      "decode_tps": 52.3,
+      "completion_tokens": 34
+    },
+    "98304": {
+      "error": "HTTPError: 400 Client Error: Bad Request for url: http://localhost:8001/v1/chat/completions"
+    }
+  }
+}

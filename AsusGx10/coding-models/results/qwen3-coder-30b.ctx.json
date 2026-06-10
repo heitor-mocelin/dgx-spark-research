@@ -1,0 +1,31 @@
+{
+  "label": "qwen3-coder-30b",
+  "model": "qwen3-coder-30b",
+  "ts": 1781030108,
+  "context_sweep": {
+    "1024": {
+      "prompt_tokens": 1252,
+      "ttft_ms": 225.4,
+      "decode_tps": 73.3,
+      "completion_tokens": 40
+    },
+    "8192": {
+      "prompt_tokens": 10304,
+      "ttft_ms": 1874.2,
+      "decode_tps": 64.1,
+      "completion_tokens": 39
+    },
+    "32768": {
+      "prompt_tokens": 42264,
+      "ttft_ms": 13867.0,
+      "decode_tps": 45.3,
+      "completion_tokens": 58
+    },
+    "98304": {
+      "prompt_tokens": 129624,
+      "ttft_ms": 99401.1,
+      "decode_tps": 26.0,
+      "completion_tokens": 46
+    }
+  }
+}

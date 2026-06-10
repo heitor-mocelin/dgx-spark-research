@@ -1,0 +1,54 @@
+{
+  "label": "devstral-24b",
+  "model": "devstral-24b",
+  "base": "http://localhost:8001",
+  "ts": 1781034568,
+  "runs": 3,
+  "max_tokens": 256,
+  "extra_body": {},
+  "smoke": {
+    "ok": true,
+    "text": "OK",
+    "ctoks": 2
+  },
+  "ttft_ms": {
+    "mean": 127.8,
+    "stdev": 0.8,
+    "runs": [
+      128.6,
+      128.1,
+      126.8
+    ]
+  },
+  "decode_tps": {
+    "mean": 16.0,
+    "stdev": 0.0,
+    "runs": [
+      16.0,
+      16.0,
+      16.0
+    ]
+  },
+  "concurrency": {
+    "1": {
+      "agg_tps": 15.9,
+      "tot_tokens": 256,
+      "wall_s": 16.11
+    },
+    "4": {
+      "agg_tps": 64.8,
+      "tot_tokens": 1024,
+      "wall_s": 15.8
+    },
+    "16": {
+      "agg_tps": 251.7,
+      "tot_tokens": 4096,
+      "wall_s": 16.27
+    },
+    "32": {
+      "agg_tps": 484.3,
+      "tot_tokens": 8192,
+      "wall_s": 16.91
+    }
+  }
+}
