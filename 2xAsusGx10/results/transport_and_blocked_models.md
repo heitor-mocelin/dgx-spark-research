@@ -36,3 +36,14 @@ Single-box reference ≈ 73 tok/s (from the single-Spark study). Distributed two
 | **PP=2** (pipeline-parallel) | **57 tok/s** | 202 ms | ~304 tok/s | **78%** |
 
 **Finding:** PP=2 is **58% faster single-stream** than TP=2. TP all-reduces twice per layer (96 syncs/token for this 48-layer model); PP hands off the activation **once per token** at the stage boundary. With cross-node sync being the dominant distribution overhead, PP's communication-light design recovers most of the single-box speed, while TP loses ~half to sync barriers. The trade-off flips for TTFT (TP 52 ms vs PP 202 ms — PP's prefill traverses both stages sequentially through the bubble) and PP needs concurrency to fill the pipeline (c8 ≈ 304 tok/s). **Takeaway: for a model that fits one box but is run distributed, prefer PP for decode-heavy / low-concurrency; this is also why llama.cpp's RPC layer-split can be competitive.**
+
+## Security: specialist vs generalist (single-box)
+
+Both single-box (security models are small — not a cluster workload). Same vuln-analysis prompts to each:
+
+| Model | Size | Prompt: `strcpy` overflow | Prompt: format-string `%x/%n` |
+|---|---|---|---|
+| **WhiteRabbitNeo-V3-7B** (specialist, Qwen2.5-Coder base, uncensored) | 7B / 15 GB | correct, detailed | correct, detailed |
+| **Qwen3-Coder-30B-A3B** (generalist) | 30B-A3B | correct, well-structured | correct, well-structured |
+
+**Finding:** comparable quality — the 7B specialist held its own against the 30B generalist, and **neither refused**. The specialist's differentiation (uncensored offensive operations) wasn't strongly exposed by these prompts because a code-tuned generalist isn't safety-gated either. For vuln analysis, a small specialist on **one** Spark is sufficient; this is not a cluster job.

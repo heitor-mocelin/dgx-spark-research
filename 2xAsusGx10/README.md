@@ -124,6 +124,19 @@ Not every NVFP4 model runs distributed on Spark. GLM-4.7 (plain `modelopt` NVFP4
 
 **Lesson:** models with exotic TP optimizations (special MoE kernels, single-node IPC all-reduce) may not survive multi-node on GB10; plain modelopt-NVFP4 + standard NCCL all-reduce is what travels. Operational note: repeated failed engine inits **degrade the cluster** (the cross-node `sample_tokens` RPC starts timing out) — a fresh `docker` container recreate restores it. Detail → [`results/transport_and_blocked_models.md`](results/transport_and_blocked_models.md).
 
+## 9. Security specialist vs generalist (single-box)
+
+Security models are small — they fit one Spark, so they're not a cluster workload, but we tested the premise. **WhiteRabbitNeo-V3-7B** (Qwen2.5-Coder-7B base, uncensored DevSecOps, ~15 GB) vs **Qwen3-Coder-30B-A3B** generalist, on standard vuln-analysis prompts (stack overflow via `strcpy`, format-string `%x/%n` exploitation):
+
+**Both produced correct, comparably detailed analyses — neither refused.** The 7B specialist held its own against the 30B generalist; the larger model bought little here, and the specialist's real edge (uncensored offensive ops) wasn't strongly exposed because a code-tuned generalist isn't safety-gated either. **Takeaway:** for vuln analysis a small specialist on one Spark suffices — *not* a cluster job. The cluster's value stays the big general coders that can't fit one box.
+
+## Future work
+
+- **Compile vLLM from source for `sm_121`.** We ran the prebuilt image and paid for it: GLM's FP4 worked only via FlashInfer's *runtime* JIT, while DeepSeek-V4 died on a *missing static* NVFP4-MoE kernel. A from-source build (`CMAKE_CUDA_ARCHITECTURES=121` / `TORCH_CUDA_ARCH_LIST=12.1`) emits native SASS for the GB10's FP4 tensor cores — likely unblocking DeepSeek-V4-class MoEs and adding throughput (prebuilt cubin → Marlin fallback / "kernel does not support device"; native compile → native FP4).
+- **llama.cpp RPC distributed** — layer-split across two Sparks, a lighter-communication alternative to vLLM TP that would corroborate the TP-vs-PP result. Needs a version-matched CUDA+RPC build on both boxes (DGX1 already has a CUDA `arch=121` build — just rebuild with `-DGGML_RPC=ON` and bootstrap DGX2).
+- **GPUDirect RDMA** (`NCCL_NET_GDR_LEVEL`) — host-staged vs GPU-direct on GB10.
+- **High-concurrency transport study** — where RDMA's latency edge should finally bite (the regime our c≤16 RPC ceiling blocked).
+
 ## Methodology & reproducibility
 
 - [`scripts/cluster_bench.py`](scripts/cluster_bench.py) — captured benchmark: idle → single-stream (TTFT + decode) → concurrency sweep, with per-phase Prometheus telemetry on **both** nodes (GPU/board temp, power, util, SM clock, IB link Gb/s). Runs from a host that can reach the vLLM endpoint and Prometheus.
@@ -143,7 +156,7 @@ Not every NVFP4 model runs distributed on Spark. GLM-4.7 (plain `modelopt` NVFP4
 | TP=2 vs PP=2 (PP 58% faster single-stream) | ✅ |
 | DeepSeek-V4-Flash | ❌ blocked — no sm_121 NVFP4-MoE kernel |
 | MiniMax-M2.7 | ❌ blocked — single-node Lamport all-reduce |
-| llama.cpp RPC (engine + paradigm comparison) | ⏳ in progress |
-| Security models (WhiteRabbitNeo / Foundation-Sec) | ⬜ queued |
+| Security: specialist vs generalist (single-box) | ✅ |
+| llama.cpp RPC distributed | ⏸ deferred → future work (needs 2-box CUDA+RPC build) |
 
 *This document is updated as the overnight battery completes.*
