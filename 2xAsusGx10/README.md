@@ -96,6 +96,34 @@ The payload per round-trip is KB-scale, so **bandwidth is never the bottleneck �
 
 > Measured link throughput came straight from the IB hardware counters (`port_xmit_data`), so these *are* the RDMA-traffic numbers — 1.46 Gb/s (Qwen) and 1.17 Gb/s (GLM) under load.
 
+## 6. Transport: RDMA vs TCP — the empirical latency test
+
+Same model (Qwen3-Coder-30B-A3B), same RoCE wire, only the NCCL transport flipped (`NCCL_IB_DISABLE` 0→1; verified `Using network IB` vs `Using network Socket`):
+
+| Transport | Decode tok/s | TTFT |
+|---|---|---|
+| IB / RDMA | 36.0 | 52 ms |
+| TCP / Socket | 35.7 | 111 ms |
+
+**Decode is identical** — forcing TCP did *not* cripple it. NCCL overlaps the per-layer all-reduces with compute, hiding transport latency during steady-state decode of a low-active (3B) model. RDMA's win is in **TTFT (~2×)** and would grow under high concurrency. This *corrects* the intuition that RDMA is essential for decode — for single-stream it isn't; GPU compute/memory is the bottleneck regardless of transport. Detail → [`results/transport_and_blocked_models.md`](results/transport_and_blocked_models.md).
+
+## 7. TP=2 vs PP=2 — the shape of the communication decides
+
+| Mode | Single-stream | TTFT | % of single-box (~73 tok/s) |
+|---|---|---|---|
+| TP=2 | 36 tok/s | 52 ms | 49% |
+| **PP=2** | **57 tok/s** | 202 ms | **78%** |
+
+**PP=2 is 58% faster single-stream.** TP all-reduces twice per layer (~96 syncs/token); PP hands off the activation **once per token** at the stage boundary. Cross-node sync is the dominant distribution overhead, so PP's communication-light layer-split recovers most of the single-box speed while TP loses ~half to sync barriers. The trade-off flips for TTFT (TP wins) and PP needs concurrency to fill the pipeline (c8 ≈ 304 tok/s). This is also why llama.cpp's RPC layer-split is worth testing.
+
+## 8. What didn't run — and why that's a result
+
+Not every NVFP4 model runs distributed on Spark. GLM-4.7 (plain `modelopt` NVFP4 + standard all-reduce) worked; two others hit structural walls on the 2-node GB10 cluster:
+- **DeepSeek-V4-Flash** — no NVFP4-MoE kernel for sm_121 (`flashinfer_trtllm`: *"kernel does not support current device cuda"*; `flashinfer_cutlass`: doesn't apply the model's required SwiGLU clamp).
+- **MiniMax-M2.7** — its custom "Lamport" fused-RMSNorm all-reduce uses single-node CUDA IPC peer handles → `cudaErrorInvalidResourceHandle` across two physically separate boxes.
+
+**Lesson:** models with exotic TP optimizations (special MoE kernels, single-node IPC all-reduce) may not survive multi-node on GB10; plain modelopt-NVFP4 + standard NCCL all-reduce is what travels. Operational note: repeated failed engine inits **degrade the cluster** (the cross-node `sample_tokens` RPC starts timing out) — a fresh `docker` container recreate restores it. Detail → [`results/transport_and_blocked_models.md`](results/transport_and_blocked_models.md).
+
 ## Methodology & reproducibility
 
 - [`scripts/cluster_bench.py`](scripts/cluster_bench.py) — captured benchmark: idle → single-stream (TTFT + decode) → concurrency sweep, with per-phase Prometheus telemetry on **both** nodes (GPU/board temp, power, util, SM clock, IB link Gb/s). Runs from a host that can reach the vLLM endpoint and Prometheus.
@@ -111,10 +139,11 @@ The payload per round-trip is KB-scale, so **bandwidth is never the bottleneck �
 | Distribution tax (Qwen3.6-35B) | ✅ |
 | Hero: GLM-4.7 355B | ✅ |
 | Latency-not-bandwidth analysis | ✅ |
-| DeepSeek-V4-Flash (168 GB) | ⏳ downloading |
-| MiniMax-M2.7 (140 GB) | ⬜ queued |
-| RDMA vs TCP + GPUDirect transport study | ⬜ queued |
-| TP=2 vs PP=2 | ⬜ queued |
+| Transport: RDMA vs TCP (decode same, RDMA 2× TTFT) | ✅ |
+| TP=2 vs PP=2 (PP 58% faster single-stream) | ✅ |
+| DeepSeek-V4-Flash | ❌ blocked — no sm_121 NVFP4-MoE kernel |
+| MiniMax-M2.7 | ❌ blocked — single-node Lamport all-reduce |
+| llama.cpp RPC (engine + paradigm comparison) | ⏳ in progress |
 | Security models (WhiteRabbitNeo / Foundation-Sec) | ⬜ queued |
 
 *This document is updated as the overnight battery completes.*
